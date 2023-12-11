@@ -1,7 +1,7 @@
 import Home from 'src/pages/Home';
 import Service from 'src/pages/Service';
 import Login from 'src/pages/Login';
-import { HeaderOnly } from 'src/components/Layout';
+import { HeaderOnly } from 'src/components/Layouts';
 
 //routes without login
 const publicRoutes = [
