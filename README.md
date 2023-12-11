@@ -5,11 +5,11 @@ Dự án được khởi tạo bằng [create-react-app](https://create-react-ap
 ## Cài đặt và chạy:
 
 Cài đặt các thư viện cần dùng:
-### 'npm i'
+#### 'npm i'
 
 Build app: 
-### 'npm run build'
+#### 'npm run build'
 
 Run app:
-### 'npm start'
+#### 'npm start'
 
