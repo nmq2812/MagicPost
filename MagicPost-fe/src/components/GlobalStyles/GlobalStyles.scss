@@ -1,9 +1,15 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-:root {}
+:root {
+    --default-layout-header-height: 102px;
+    --default-layout-width: 1170px;
+
+}
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
