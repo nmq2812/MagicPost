@@ -6,8 +6,14 @@
 }
 
 .content {
+    display: flex;
     width: var(--default-layout-width);
     height: 100%;
     background-color: aquamarine;
+}
 
+.logo {
+    display: flex;
+    z-index: 1;
+    max-width: var(--default-layout-header-heigh);
 }
