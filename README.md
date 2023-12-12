@@ -3,22 +3,27 @@ Delivery management system.
 
 <br />
 <div align="center">
-  <a href="https://github.com/lethanksbinh/Aninagori">
-    <img src="public/favicon.ico" alt="Logo" width="80" height="80">
+  <a href="https://github.com/nmq2812/MagicPost">
+    <img src="public/res/MagicPost-logos_transparent.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Aninagori</h3>
-
+<h3 align="center">Magic Post</h3>
   <p align="center">
-    Share your favorite Animemory with friends!
+    Delivery management service
     <br />
-    <a href="https://github.com/lethanksbinh/Aninagori"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://aninagori.vercel.app/">View Demo</a>
-    ·
-    <a href="https://github.com/lethanksbinh/Aninagori/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/lethanksbinh/Aninagori/issues">Request Feature</a>
   </p>
 </div>
+
+## About The Project
+Magic Post is a web application built to manage the company's delivery system nationwide, as well as help customers manage their orders easily and conveniently
+### Build with
+- [ReactJS](https://react.dev/)
+- [NodeJS](https://nodejs.org/en)
+- [Webpack](https://webpack.js.org/)
+
+## Project Background
+MagicPost is a company operating in the field of delivery. This company has transaction points covering all over the country. Each transaction point is in charge of one zone. The company also has many cargo gathering points.Each transaction point will work with one gathering point. In contrast, one gathering point will work with multiple transaction points.
+
+The sender takes the goods to a transaction point (usually the closest) to send. The goods are then taken to the collection point corresponding to the sender's transaction point, and then transferred to the collection point corresponding to the recipient's transaction point. At the recipient's transaction point, the delivery staff will deliver the goods to the recipient's hands.
+
+The company needs to develop a software to manage the delivery system mentioned above.
