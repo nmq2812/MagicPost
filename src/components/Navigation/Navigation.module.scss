@@ -1,0 +1,11 @@
+.nav {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    /* hoặc các thuộc tính tương tự để căn chỉnh */
+    align-items: center;
+}
+
+li {
+    min-width: 124px;
+}

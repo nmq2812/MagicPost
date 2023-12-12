@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
-import logo from 'src/res/MagicPost-logos_transparent.png';
+import logo from 'src/assets/images/logo.png';
+import Navigation from 'src/components/Navigation';
 
 const cx = classNames.bind(styles);
 function Header() {
@@ -10,9 +11,7 @@ function Header() {
                 <div className={cx('logo')}>
                     <img src={logo} alt="MagicPost" />
                 </div>
-                <div className={cx('nav')}>
-                    
-                </div>
+                <Navigation></Navigation>
             </div>
         </header>
     );

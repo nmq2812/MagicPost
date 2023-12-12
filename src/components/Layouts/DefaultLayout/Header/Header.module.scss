@@ -9,10 +9,10 @@
     display: flex;
     width: var(--default-layout-width);
     height: 100%;
+    padding: 8px 0px 8px
 }
 
 .logo {
     display: flex;
-    z-index: 1;
-    max-width: var(--default-layout-header-heigh);
+    max-width: 305px;
 }
