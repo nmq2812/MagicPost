@@ -1,7 +1,7 @@
 .nav {
     display: flex;
     position: relative;
-        margin-left: 256px;
+    margin-left: 256px;
     width: 100%;
     justify-content: space-between;
     /* hoặc các thuộc tính tương tự để căn chỉnh */
@@ -12,9 +12,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-
     width: 124px;
     height: 100%;
 }
