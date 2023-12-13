@@ -1,7 +1,0 @@
-
-            Fonts used: Lato-Regular,LeagueGothic-Italic 
-
-            Colors used: 495FA6,F6AE84  
-
-            Icon url: https://thenounproject.com/term/express/3964331  
-        

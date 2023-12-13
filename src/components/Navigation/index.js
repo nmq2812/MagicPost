@@ -5,34 +5,40 @@ const cx = classNames.bind(styles);
 
 function Navigation() {
     return (
-        <ul className={cx('nav')}>
-            <li>
-                <a href="#">Vận chuyển</a>
-            </li>
-            <li>
-                <a href="#">Dịch vụ</a>
-            </li>
-            <li>
-                <a href="#">Liên hệ</a>
-            </li>
-            <li>
+        <nav className={cx('nav')}>
+            <div className={cx('nav-item')}>
                 <a href="#">
-                    More
+                    <h3>Vận chuyển</h3>
+                </a>
+            </div>
+            <div className={cx('nav-item')}>
+                <a href="#">
+                    <h3>Dịch vụ</h3>
+                </a>
+            </div>
+            <div className={cx('nav-item')}>
+                <a href="#">
+                    <h3>Liên hệ</h3>
+                </a>
+            </div>
+            <div className={cx('nav-item')}>
+                <a href="#">
+                    <h3>More</h3>
                     <i className={cx('nav-down-icon ti-angle-down')}></i>
                 </a>
                 <ul className={cx('subnav')}>
-                    <li>
+                    <div>
                         <a href="#">Merchandis</a>
-                    </li>
-                    <li>
+                    </div>
+                    <div>
                         <a href="#">Extras</a>
-                    </li>
-                    <li>
+                    </div>
+                    <div>
                         <a href="#">Media</a>
-                    </li>
+                    </div>
                 </ul>
-            </li>
-        </ul>
+            </div>
+        </nav>
     );
 }
 

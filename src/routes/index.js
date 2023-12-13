@@ -8,7 +8,6 @@ const publicRoutes = [
     {
         path: '/login',
         component: Login,
-        layout: HeaderOnly,
     },
     {
         path: '/service',
