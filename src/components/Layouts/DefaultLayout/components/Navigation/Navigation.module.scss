@@ -1,8 +1,13 @@
-.nav {
+.wrapper {
     display: flex;
-    position: relative;
-    margin-left: 256px;
+    justify-content: center;
     width: 100%;
+    background-color: var(--default-color);
+}
+
+.container {
+    display: flex;
+    width: var(--default-layout-width);
     justify-content: space-between;
     /* hoặc các thuộc tính tương tự để căn chỉnh */
     align-items: center;
@@ -12,8 +17,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 124px;
+    padding: 8px;
     height: 100%;
+}
+
+.nav-item>a {
+    text-decoration: none;
+
 }
 
 .subnav {
@@ -24,6 +34,7 @@
 li a {
     width: 100%;
 }
+
 li {
     min-width: 124px;
 }
