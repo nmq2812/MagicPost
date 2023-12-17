@@ -1,6 +1,16 @@
 .wrapper {
     display: flex;
+    flex-direction: column;
+        margin-right: 15px;
     width: 240px;
+    border: 1px solid #ddd;
     min-height: 1000px;
-    background-color: #ccc;
+}
+
+.side-list {
+    background: #f7f7f7;
+}
+
+.side-item {
+    padding: 4px;
 }

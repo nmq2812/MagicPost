@@ -4,6 +4,7 @@ import Footer from './Footer';
 import styles from './DefaultLayout.module.scss';
 import classNames from 'classnames/bind';
 import Sidebar from './Sidebar';
+import Banner from './components/Banner';
 
 const cx = classNames.bind(styles);
 
@@ -12,6 +13,7 @@ function DefaultLayout({ children }) {
         <div className={cx('wrapper')}>
             <Header />
             <Navigation />
+            <Banner />
             <div className={cx('container')}>
                 <Sidebar />
                 <div className={cx('content')}>{children}</div>

@@ -9,7 +9,9 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('content')}>
                 <div className={cx('logo')}>
-                    <img src={logo} alt="MagicPost" />
+                    <a href="/">
+                        <img src={logo} alt="MagicPost" />
+                    </a>
                 </div>
             </div>
         </header>

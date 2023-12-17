@@ -8,12 +8,12 @@ function Navigation() {
         <div className={cx('wrapper')}>
             <nav className={cx('container')}>
                 <div className={cx('nav-item')}>
-                    <a href="#">
+                    <a href="/search">
                         <h3>Tra cứu - Định vị</h3>
                     </a>
                 </div>
                 <div className={cx('nav-item')}>
-                    <a href="#">
+                    <a href="/service">
                         <h3>Dịch vụ</h3>
                     </a>
                 </div>
@@ -30,6 +30,11 @@ function Navigation() {
                 <div className={cx('nav-item')}>
                     <a href="#">
                         <h3>API</h3>
+                    </a>
+                </div>
+                <div className={cx('nav-item')}>
+                    <a href="/login">
+                        <h3>Đăng nhập</h3>
                     </a>
                 </div>
             </nav>
