@@ -1,16 +1,29 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-        margin-right: 15px;
-    width: 240px;
-    border: 1px solid #ddd;
-    min-height: 1000px;
+    background-color: #f4f4f4;
+        padding: 20px;
+        width: 250px;
+        box-sizing: border-box;
 }
 
 .side-list {
-    background: #f7f7f7;
+list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .side-item {
-    padding: 4px;
+margin-bottom: 10px;
+}
+
+.side-item a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.side-item a:hover {
+    background-color: #ddd;
+    border-radius: 5px;
 }

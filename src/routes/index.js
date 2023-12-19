@@ -2,7 +2,8 @@ import Home from 'src/pages/Home';
 import Service from 'src/pages/Service';
 import Login from 'src/pages/Login';
 import Search from 'src/pages/Search';
-import { HeaderOnly } from 'src/components/Layouts';
+import Manage from 'src/pages/Manage';
+import { ManagementLayout } from 'src/components/Layouts';
 
 //routes without login
 const publicRoutes = [
@@ -21,6 +22,11 @@ const publicRoutes = [
     {
         path: '/search',
         component: Search,
+    },
+    {
+        path: '/manage',
+        component: Manage,
+        layout: ManagementLayout,
     },
 ];
 

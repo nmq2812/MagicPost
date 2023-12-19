@@ -12,7 +12,7 @@ function Sidebar() {
                     <a href="">Tổng hợp tin tức</a>
                 </li>
                 <li className={cx('side-item')}>
-                    <a href="">Quản lý</a>
+                    <a href="./manage">Quản lý</a>
                 </li>
                 <li className={cx('side-item')}>
                     <a href="">Tem bưu chính</a>

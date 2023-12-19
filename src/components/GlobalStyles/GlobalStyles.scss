@@ -23,6 +23,14 @@ body {
     font-size: 1.6rem;
     text-rendering: optimizeSpeed;
 }
+
 li {
     list-style-type: none;
+}
+.default-color {
+    background-color: var(--default-color);
+}
+
+.default-width {
+    width: var(--default-layout-width) !important;
 }
