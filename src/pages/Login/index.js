@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Login.module.scss';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -57,7 +56,7 @@ function Login() {
                 ) : (
                     ''
                 )}
-                <button className="btn btn-primary default-color w-100 p-2 mt-3 mb-3" type="submit">
+                <button className="btn btn-primary btn-lg default-color w-100 p-2 mt-3 mb-3" type="submit">
                     {isLogin ? 'Login' : 'Register'}
                 </button>
             </form>

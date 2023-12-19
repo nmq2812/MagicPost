@@ -1,27 +1,21 @@
-import classNames from 'classnames/bind';
-import styles from './Search.module.scss';
-
-const cx = classNames.bind(styles);
-
 function Search() {
     return (
-        <div className={cx('wrapper')}>
-            <h1>Theo dõi đơn hàng</h1>
-            <span className={cx('search-box')}>
-                <div className={cx('search-bar')}>
-                    <input
-                        placeholder="Nhập mã đơn hàng bạn cần tra cứu"
-                        className={cx('input')}
-                        type="text"
-                        spellCheck={false}
-                    />
-                    <span className={cx('btn')}>
-                        <button type="button" className={cx('search-btn')}>
-                            <span>Theo dõi</span>
-                        </button>
-                    </span>
+        <div className="container d-flex align-items-center w-75" style={{ flexDirection: 'column' }}>
+            <h1 className="p-3 m-5">THEO DÕI ĐƠN HÀNG</h1>
+            <div className="input-group input-group-lg h-300">
+                <input
+                    type="text"
+                    className="form-control rounded-3"
+                    placeholder="Nhập từ khóa..."
+                    aria-label="Nhập từ khóa"
+                    aria-describedby="basic-addon2"
+                />
+                <div className="input-group-append">
+                    <button className="btn btn-outline-secondary default-color text-white h-100 ms-2" type="button">
+                        Tìm kiếm
+                    </button>
                 </div>
-            </span>
+            </div>
         </div>
     );
 }
