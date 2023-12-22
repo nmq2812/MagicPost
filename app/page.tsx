@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 
 import { MainNav } from '@/components/main-nav'
 import { Brand } from '@/components/brand'
+import { Footer } from '@/components/footer'
 
 export default function Home() {
     return (
@@ -26,6 +27,8 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+
+                <Footer></Footer>
             </div>
         </>
     )
