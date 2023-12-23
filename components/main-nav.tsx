@@ -15,19 +15,25 @@ export function MainNav({
             {...props}
         >
             <Link
-                href="/examples/dashboard"
+                href="/"
                 className="text-sm font-medium transition-colors hover:text-primary"
             >
                 Trang chủ
             </Link>
             <Link
-                href="/examples/dashboard"
+                href="#intro"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
                 Giới thiệu
             </Link>
             <Link
-                href="/examples/dashboard"
+                href="#services"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+                Dịch vụ
+            </Link>
+            <Link
+                href="#search"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
                 Tra cứu bưu gửi

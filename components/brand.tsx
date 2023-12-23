@@ -1,5 +1,3 @@
-
-
 export function Brand({ className, title }: React.HTMLAttributes<HTMLElement>) {
     return <>
         <div className="flex-1 flex items-center">
@@ -73,7 +71,7 @@ export function Brand({ className, title }: React.HTMLAttributes<HTMLElement>) {
                         className="color34485c svgShape"></path>
                 </g>
             </svg>
-            <a className="btn btn-ghost text-xl" href="/home">{title}</a>
+            <a className="btn btn-ghost text-xl" href="/">{title}</a>
         </div>
 
     </>
