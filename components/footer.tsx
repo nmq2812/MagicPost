@@ -1,5 +1,3 @@
-"use client"
-
 import { Brand } from "./brand"
 
 export function Footer() {
