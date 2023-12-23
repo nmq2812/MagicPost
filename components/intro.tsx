@@ -9,6 +9,7 @@ export function Intro() {
                 <h3>Rất vui khi được đồng hành cùng bạn!</h3>
                 <h3>Với hàng loạt các điểm dịch vụ ở khắp mọi miền tổ quốc cùng đội ngũ nhân viên đông đảo, MagicPost luôn luôn sẵn sàng phục vụ khách hàng</h3>
             </p>
+            <div className="animate-bounce"></div>
         </div>
     )
 }

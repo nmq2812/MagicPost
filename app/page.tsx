@@ -10,7 +10,7 @@ import Services from '@/components/services'
 export default function Home() {
     return (
         <>
-            <div className="hidden flex-col md:flex">
+            <div className="hidden flex-col md:flex sm:grid">
                 <div className="border-b">
                     <div className="flex h-16 items-center px-4 fixed top-0 w-full z-50">
                         <Brand title="Magic Post" />
