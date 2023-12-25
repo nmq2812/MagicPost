@@ -26,7 +26,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
             {...props}
         >
             {items.map((item) => (
-                <NavLink key={item.href} href={item.href} title={item.title} icon={item.icon}>
+                <NavLink className={item.href === pathname ? "bg-muted brightness-95" : ""} key={item.href} href={item.href} title={item.title} icon={item.icon}>
                 </NavLink>
             ))}
         </nav>
@@ -34,13 +34,14 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
 }
 
 
-function NavLink({ href, icon, title }: { href: string, icon: React.ReactNode, title: string }) {
+function NavLink({ className, href, icon, title }: { className: string, href: string, icon: React.ReactNode, title: string }) {
     return (
         <Link
             href={href}
             className={cn(
                 "flex items-center gap-4 w-full p-2 py-4 hover:bg-muted rounded-lg",
-                "w-full"
+                "w-full",
+                className
             )}
         >
             {icon}

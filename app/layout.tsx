@@ -1,8 +1,16 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Orbitron } from 'next/font/google'
 import './globals.css'
+import { cn } from '@/lib/utils'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const digital = Orbitron(
+    {
+        subsets: ['latin'],
+        variable: '--font-digital',
+    }
+)
+
 
 export const metadata: Metadata = {
     title: 'Magic Post',
@@ -15,8 +23,8 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="vi">
-            <body className={inter.className}>{children}</body>
-        </html>
+        <html suppressHydrationWarning lang="vi">
+            <body className={cn("bg-background font-sans antialiased", inter.variable, digital.variable)}>{children}</body>
+        </html >
     )
 }
