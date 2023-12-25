@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Edit, Info, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Trash2 } from "lucide-react";
 
-
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { DeleteHubDialog, EditHubDialog } from "./hub-dialog";
 
 export type Hub = {
     id: number
@@ -64,33 +66,13 @@ export const columns: ColumnDef<Hub>[] = [
         id: "actions",
         header: "Thao tác",
         cell: ({ row }) => {
-            const payment = row.original
+            const hub = row.original
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id.toString())}
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="flex gap-3">
-                            <Info strokeWidth={1} size={16} />
-                            <p>Chi tiết</p>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="flex gap-3">
-                            <Edit strokeWidth={1} size={16} />
-                            <p>Cập nhật</p>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex gap-3">
+                    <EditHubDialog hub={hub} />
+                    <DeleteHubDialog hub={hub} />
+                </div>
             )
         },
     },
