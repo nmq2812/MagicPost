@@ -20,7 +20,7 @@ export default function Services() {
             <div className="">
                 <h1 className="grid place-items-center text-3xl font-bold tracking-tight m-1">Dịch vụ</h1>
                 <div className="grid grid-cols-3 mt-8 gap-x-16">
-                    <Card>
+                    <Card >
                         <CardHeader>
                             <CardTitle>Dịch vụ giao hàng</CardTitle>
                         </CardHeader>

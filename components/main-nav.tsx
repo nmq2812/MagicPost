@@ -15,16 +15,10 @@ export function MainNav({
             {...props}
         >
             <Link
-                href="/"
+                href="#intro"
                 className="text-sm font-medium transition-colors hover:text-primary"
             >
                 Trang chủ
-            </Link>
-            <Link
-                href="#intro"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-                Giới thiệu
             </Link>
             <Link
                 href="#services"
@@ -39,7 +33,7 @@ export function MainNav({
                 Tra cứu bưu gửi
             </Link>
             <Button className="text-sm font-medium">
-                Đăng nhập
+                <a href="/login" className="">Đăng nhập</a>
             </Button>
         </nav>
     )
