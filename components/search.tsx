@@ -1,5 +1,4 @@
 "use client"
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import SearchBar from './ui/search-bar'
 import React, { useState } from 'react';
 

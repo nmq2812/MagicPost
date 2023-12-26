@@ -18,10 +18,10 @@ const SearchBar: React.FC<{ orders: Order[]; onSearch: (searchTerm: string) => v
     };
   
     const searchOrderByCode = (searchTerm: string) => {
-      const result = orders.filter(order =>
-        order.code.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      return result;
+        const result = orders.filter(order =>
+            order.code.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        return result;
     };
     return (
         <div className="flex w-full max-w-sm items-center space-x-2 mt-8">
