@@ -1,56 +1,125 @@
-import { promises as fs } from "fs"
-import path from "path"
-import { Metadata } from "next"
-import Image from "next/image"
-import { z } from "zod"
+"use client";
+import { Button } from "@/components/ui/button"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
-import { columns } from "../components/columns"
-import { DataTable } from "../components/data-table"
-import { taskSchema } from "../components/data/schema"
 
-export const metadata: Metadata = {
-  title: "Tasks",
-  description: "A task and issue tracker build using Tanstack Table.",
+import { Edit, Info, Plus } from "lucide-react"
+import Clock from "@/components/my-clock"
+import { Input } from "@/components/ui/input"
+import { DataTable } from "./data-table"
+import { Hub, columns } from "./columns"
+
+function getHub(): Hub[] {
+    const hubs = [
+        {
+            id: 1,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 2,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 3,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 4,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 5,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 6,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 7,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 8,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 9,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        },
+        {
+            id: 10,
+            name: "Điểm tập kết Ba Đình",
+            address: "Phường Điện Ba Đinh, Hà Nội",
+            manager: "ppvan",
+            phone: "0981272356",
+        }
+    ]
+
+    return hubs
 }
 
-// Simulate a database read for tasks.
-async function getTasks() {
-  const data = await fs.readFile(
-    path.join(process.cwd(), "app/admin/components/data/tasks.json")
-  )
 
-  const tasks = JSON.parse(data.toString())
+export default function HubManagementTab() {
 
-  return z.array(taskSchema).parse(tasks)
-}
+    const data = getHub()
 
-export default async function AdminPage() {
-  const tasks = await getTasks()
 
-  return (
-    <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/tasks-light.png"
-          width={1280}
-          height={998}
-          alt="Playground"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/tasks-dark.png"
-          width={1280}
-          height={998}
-          alt="Playground"
-          className="hidden dark:block"
-        />
-      </div>
-      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <div className="flex items-center justify-center space-y-2">
-            <DataTable data={tasks} columns={columns} />
+    return (
+        <div className="p-3">
+            <div className="flex items-center justify-between mb-4">
+                <h1 className="text-2xl font-semibold">Quản lý điểm tập kết</h1>
+                <Clock />
+            </div>
+
+            <div className="w-full flex gap-4 mb-8 justify-between items-center">
+                <Input className="max-w-[800px]" placeholder="Tìm kiếm điểm tập kết..." />
+
+                <Button
+                    variant="default"
+                    className="w-48 p-2 flex justify-around items-center"
+                >
+                    <Plus strokeWidth={1} />
+                    <p>Thêm điểm tập kết</p>
+                </Button>
+            </div>
+
+            <DataTable columns={columns} data={data} />
         </div>
-        
-      </div>
-    </>
-  )
+    )
 }

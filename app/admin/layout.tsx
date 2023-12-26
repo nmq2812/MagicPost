@@ -4,6 +4,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { LogOut, PieChart, Settings, Store, Users, Warehouse } from "lucide-react"
 import { SidebarNav } from "@/components/admin-nav"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 interface AdminLayoutProps {
     children: React.ReactNode
@@ -41,7 +42,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
 
     return (
-        <div className="flex gap-2 w-full p-1 h-screen rounded-lg">
+        <div className="flex gap-2 w-full p-1 h-screen overflow-hidden rounded-lg">
             <aside className="w-1/6 border rounded-lg bg-background shadow">
                 <div className="flex flex-col px-2 py-3 h-full">
                     <div className="p-2 mb-4 bg-card">
@@ -64,7 +65,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     </NavLink>
                 </div>
             </aside >
-            <main className="w-5/6 bg-gray-400 rounded-lg">
+            <main className="w-5/6 h-screen border shadow p-2 rounded-lg">
                 {children}
             </main>
         </div >
