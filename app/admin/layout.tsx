@@ -64,7 +64,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     </NavLink>
                 </div>
             </aside >
-            <main className="w-5/6 bg-green-400 rounded-lg">
+            <main className="w-5/6 bg-gray-400 rounded-lg">
                 {children}
             </main>
         </div >

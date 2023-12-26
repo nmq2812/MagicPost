@@ -33,7 +33,7 @@ export function MainNav({
                 Tra cứu bưu gửi
             </Link>
             <Button className="text-sm font-medium">
-                Đăng nhập
+                <a href="/login" className="">Đăng nhập</a>
             </Button>
         </nav>
     )
