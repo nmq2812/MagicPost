@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-import { DeleteHubDialog, EditHubDialog } from "./hub-dialog";
 import { DataTableColumnHeader } from "./column-header";
+import { DeleteOfficeDialog, EditOfficeDialog } from "./office-dialog";
 
-export type Hub = {
+export type Office = {
     id: number
     name: string
     address: string
@@ -13,7 +13,7 @@ export type Hub = {
     phone: string
 }
 
-export const columns: ColumnDef<Hub>[] = [
+export const columns: ColumnDef<Office>[] = [
     {
         accessorKey: "id",
         header: ({ column }) => {
@@ -47,12 +47,12 @@ export const columns: ColumnDef<Hub>[] = [
         id: "actions",
         header: "Thao tác",
         cell: ({ row }) => {
-            const hub = row.original
+            const office = row.original
 
             return (
                 <div className="flex gap-3">
-                    <EditHubDialog hub={hub} />
-                    <DeleteHubDialog hub={hub} />
+                    <EditOfficeDialog office={office} />
+                    <DeleteOfficeDialog office={office} />
                 </div>
             )
         },

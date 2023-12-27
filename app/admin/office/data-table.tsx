@@ -24,8 +24,9 @@ import {
 import { Button } from "@/components/ui/button"
 import React from "react"
 import { DataTablePagination } from "./pagination";
-import { AddHubDialog } from "./hub-dialog";
+// import { AddHubDialog } from "./hub-dialog";
 import { Input } from "@/components/ui/input";
+import { AddOfficeDialog } from "./office-dialog";
 
 
 
@@ -57,6 +58,11 @@ export function DataTable<TData, TValue>({
             sorting,
             columnFilters,
         },
+        initialState: {
+            pagination: {
+                pageSize: 20,
+            }
+        }
     })
 
 
@@ -66,7 +72,7 @@ export function DataTable<TData, TValue>({
 
             <div className="flex justify-between items-center py-4 px-1">
                 <Input
-                    placeholder="Tìm tên điểm tập kết"
+                    placeholder="Tìm tên điểm giao dịch"
                     value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
                         table.getColumn("name")?.setFilterValue(event.target.value)
@@ -74,7 +80,7 @@ export function DataTable<TData, TValue>({
                     className="max-w-sm"
                 />
 
-                <AddHubDialog />
+                <AddOfficeDialog />
             </div>
 
             <div className="rounded-md overflow-y-auto flex-1">
