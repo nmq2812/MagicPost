@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     ColumnDef,
@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import React from "react"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 
 
