@@ -3,11 +3,11 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EditIcon, Plus, Trash2 } from "lucide-react";
-import { Hub } from "./columns";
+import { Office } from "./columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
-export function EditHubDialog({ hub }: { hub: Hub }) {
+export function EditOfficeDialog({ office }: { office: Office }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -17,9 +17,9 @@ export function EditHubDialog({ hub }: { hub: Hub }) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[800px] h-96">
                 <DialogHeader>
-                    <DialogTitle>Cập nhật điểm tập kết</DialogTitle>
+                    <DialogTitle>Cập nhật điểm giao dịch</DialogTitle>
                     <DialogDescription>
-                        Cập nhật thông tin về điểm tập kết tại đây.
+                        Cập nhật thông tin về điểm giao dịch tại đây.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -27,7 +27,7 @@ export function EditHubDialog({ hub }: { hub: Hub }) {
                         <Label htmlFor="name" className="text-right">
                             Tên
                         </Label>
-                        <Input id="name" value={hub.name} className="col-span-6" />
+                        <Input id="name" value={office.name} className="col-span-6" />
                     </div>
                     <div className="grid grid-cols-7 items-center gap-4">
                         <Label htmlFor="address" className="text-right">
@@ -75,13 +75,13 @@ export function EditHubDialog({ hub }: { hub: Hub }) {
                         <Label htmlFor="manager" className="text-right">
                             Quản lý
                         </Label>
-                        <Input id="manager" value={`${hub.manager}`} className="col-span-6" />
+                        <Input id="manager" value={`${office.manager}`} className="col-span-6" />
                     </div>
                     <div className="grid grid-cols-7 items-center gap-4">
                         <Label htmlFor="phone" className="text-right">
                             Số điện thoại
                         </Label>
-                        <Input id="phone" value={hub.phone} className="col-span-6" />
+                        <Input id="phone" value={office.phone} className="col-span-6" />
                     </div>
                 </div>
                 <DialogFooter>
@@ -93,7 +93,7 @@ export function EditHubDialog({ hub }: { hub: Hub }) {
 }
 
 
-export function DeleteHubDialog({ hub }: { hub: Hub }) {
+export function DeleteOfficeDialog({ office }: { office: Office }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -103,9 +103,9 @@ export function DeleteHubDialog({ hub }: { hub: Hub }) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Xóa điểm tập kết</DialogTitle>
+                    <DialogTitle>Xóa điểm giao dịch</DialogTitle>
                     <DialogDescription>
-                        Xóa điểm tập kết khỏi hệ thống, thực thể liên quan sẽ setnull.
+                        Xóa điểm giao dịch khỏi hệ thống, thực thể liên quan sẽ setnull.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -119,7 +119,7 @@ export function DeleteHubDialog({ hub }: { hub: Hub }) {
     )
 }
 
-export function AddHubDialog() {
+export function AddOfficeDialog() {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -128,14 +128,14 @@ export function AddHubDialog() {
                     className="w-48 p-2 flex justify-around items-center"
                 >
                     <Plus strokeWidth={1} />
-                    <p>Thêm điểm tập kết</p>
+                    <p>Thêm điểm giao dịch</p>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[800px] h-96">
                 <DialogHeader>
-                    <DialogTitle>Cập nhật điểm tập kết</DialogTitle>
+                    <DialogTitle>Cập nhật điểm giao dịch</DialogTitle>
                     <DialogDescription>
-                        Cập nhật thông tin về điểm tập kết tại đây.
+                        Cập nhật thông tin về điểm giao dịch tại đây.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
