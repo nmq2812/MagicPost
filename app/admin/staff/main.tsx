@@ -1,9 +1,9 @@
 "use client";
 
 import Clock from "@/components/my-clock";
-import { Input } from "@/components/ui/input";
 import { User, columns } from "./columns";
 import { DataTable } from "./data-table";
+
 // import { AddHubDialog } from "./hub-dialog";
 
 interface UserTabProps {
@@ -27,3 +27,4 @@ export default async function UserManagementTab({ users }: UserTabProps) {
         </div>
     )
 }
+
