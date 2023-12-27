@@ -1,23 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button"
-import { Edit, Info, Plus } from "lucide-react"
-import Clock from "@/components/my-clock"
-import { Input } from "@/components/ui/input"
-import { DataTable } from "./data-table"
-import { Hub, columns } from "./columns"
+import Clock from "@/components/my-clock";
+import { Input } from "@/components/ui/input";
+import { Hub, columns } from "./columns";
+import { DataTable } from "./data-table";
 import { AddHubDialog } from "./hub-dialog";
-
-async function getHub(): Promise<Hub[]> {
-
-    const response = await fetch("http://localhost:8000/api/v1/hubs/")
-
-    if (!response.ok) {
-        throw new Error(response.statusText)
-    }
-
-    return response.json()
-}
 
 interface HubTabProps {
     hubs: Hub[]
