@@ -1,5 +1,7 @@
-export default function AdminPage() {
+import { SettingTab } from "./main";
+
+export default function SettingPage() {
     return (
-        <h1>Setting</h1>
+        <SettingTab />
     )
 }

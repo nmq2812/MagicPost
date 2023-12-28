@@ -2,7 +2,7 @@
 import { Brand } from "@/components/brand"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { LogOut, PieChart, Settings, Store, Users, Warehouse } from "lucide-react"
+import { LogOut, Package, PieChart, Settings, Store, User, Users, Warehouse } from "lucide-react"
 import { SidebarNav } from "@/components/admin-nav"
 
 interface AdminLayoutProps {
@@ -16,6 +16,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             title: "Thống kê",
             href: "/admin/statistics",
             icon: <PieChart strokeWidth={1} />
+        },
+        {
+            title: "Tạo đơn hàng",
+            href: "/admin/item",
+            icon: <Package strokeWidth={1} absoluteStrokeWidth />
         },
         {
             title: "Quản lý Nhân viên",
@@ -34,7 +39,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         },
         {
             title: "Cài đặt tài khoản",
-            href: "/admin/profile",
+            href: "/admin/setting",
             icon: <Settings strokeWidth={1} />
         }
     ]
@@ -44,14 +49,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="flex gap-2 h-screen w-full p-1 rounded-lg">
             <aside className="w-1/6 border rounded-lg bg-background shadow">
                 <div className="flex flex-col px-2 py-3 h-full">
-                    <div className="p-2 mb-4 bg-card">
+                    <div className="p-2 mb-2 bg-card">
                         <Brand title="Magic Post" />
                     </div>
 
-                    <div>
-                        <img className="object-cover w-24 h-24 mx-auto mb-3 rounded-full" src="https://avatars.githubusercontent.com/ppvan" alt="@ppvan" />
-                        <p className="text-center font-large leading-none">Phạm Văn Phúc</p>
-                        <p className="text-center text-muted-foreground">Admin</p>
+                    <div className="flex items-center justify-start gap-2 p-4 mb-4">
+                        <User />
+                        <div className="flex flex-col items-center">
+                            <p className="font-large">@ppvan</p>
+                            <p className="text-muted-foreground">Admin</p>
+                        </div>
                     </div>
 
                     <SidebarNav items={navigationLinks} />
