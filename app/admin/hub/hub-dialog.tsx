@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -5,9 +7,48 @@ import { Label } from "@/components/ui/label";
 import { EditIcon, Plus, Trash2 } from "lucide-react";
 import { Hub } from "./columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { AddressInput } from "../item/comboxbox";
+import { useEffect, useState } from "react";
+import { UsernameCombox } from "@/components/user-combox";
+import { User, Role } from "../staff/columns";
+import { useToast } from "@/components/ui/use-toast";
+
+const createHubFormSchema = z.object({
+    name: z.string({
+        required_error: "Tên điểm tập kết không được trống.",
+    }).min(1, "Tên điểm tập kết không được trống."),
+    provice: z.string({
+        required_error: "Tỉnh/Thành phố không hợp lệ.",
+    }),
+    district: z.string({
+        required_error: "Quận/Huyện không hợp lệ.",
+    }),
+    ward: z.string({
+        required_error: "Phường/Xã không hợp lệ.",
+    }),
+    manager: z.string({
+        required_error: "Quản lý không hợp lệ.",
+    }),
+    phone: z.string({
+        required_error: "Số điện thoại không được trống"
+    }).regex(/^\d{10}$/, "Số điện thoại phải là 10 số."),
+    zipcode: z.string({
+        required_error: "Mã bưu chính không được để trống",
+    }).regex(/^\d{5}$/, "Mã bưu chính phải là 5 số."),
+})
 
 
 export function EditHubDialog({ hub }: { hub: Hub }) {
+
+    function onSubmit(values: z.infer<typeof createHubFormSchema>) {
+        console.log(values)
+    }
+
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -15,77 +56,18 @@ export function EditHubDialog({ hub }: { hub: Hub }) {
                     <EditIcon size={16} strokeWidth={1} />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[800px] h-96">
+            <DialogContent className="sm:max-w-[800px]">
                 <DialogHeader>
                     <DialogTitle>Cập nhật điểm tập kết</DialogTitle>
                     <DialogDescription>
                         Cập nhật thông tin về điểm tập kết tại đây.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Tên
-                        </Label>
-                        <Input id="name" value={hub.name} className="col-span-6" />
-                    </div>
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="address" className="text-right">
-                            Địa chỉ
-                        </Label>
-                        <div className="col-span-2">
-                            <Select>
-                                <SelectTrigger className="">
-                                    <SelectValue placeholder="Tỉnh/Thành Phố" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Hà nội</SelectItem>
-                                    <SelectItem value="2">Bắc Ninh</SelectItem>
-                                    <SelectItem value="3">Quảng Nam</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="col-span-2">
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Quận/Huyện" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Hà nội</SelectItem>
-                                    <SelectItem value="2">Bắc Ninh</SelectItem>
-                                    <SelectItem value="3">Quảng Nam</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
 
-                        <div className="col-span-2">
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Xã/Phường" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Hà nội</SelectItem>
-                                    <SelectItem value="2">Bắc Ninh</SelectItem>
-                                    <SelectItem value="3">Quảng Nam</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="manager" className="text-right">
-                            Quản lý
-                        </Label>
-                        <Input id="manager" value={`${hub.manager}`} className="col-span-6" />
-                    </div>
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="phone" className="text-right">
-                            Số điện thoại
-                        </Label>
-                        <Input id="phone" value={hub.phone} className="col-span-6" />
-                    </div>
-                </div>
+                <EditHubForm hub={hub} onSubmit={onSubmit}></EditHubForm>
+
                 <DialogFooter>
-                    <Button type="submit">Xác nhận</Button>
+                    <Button form="hub-edit" type="submit">Xác nhận</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -93,7 +75,27 @@ export function EditHubDialog({ hub }: { hub: Hub }) {
 }
 
 
-export function DeleteHubDialog({ hub }: { hub: Hub }) {
+export function DeleteHubDialog({ hub }: { callback: () => void, hub: Hub }) {
+
+    function onSubmit() {
+
+        const { toast } = useToast();
+
+
+        fetch(`http://localhost:8000/api/v1/hubs/${hub.id}/`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then(() => {
+            document?.getElementById("refresh-hub")?.click();
+            console.log(document?.getElementById("refresh-hub"));
+            toast({
+                description: "Your message has been sent.",
+            })
+        })
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -110,7 +112,7 @@ export function DeleteHubDialog({ hub }: { hub: Hub }) {
                 </DialogHeader>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button type="submit" variant={"destructive"}>Xác nhận</Button>
+                        <Button type="submit" onClick={onSubmit} variant={"destructive"}>Xác nhận</Button>
                     </DialogClose>
 
                 </DialogFooter>
@@ -119,9 +121,256 @@ export function DeleteHubDialog({ hub }: { hub: Hub }) {
     )
 }
 
-export function AddHubDialog() {
+
+interface CreateHubFormProp {
+    onSubmit: (values: z.infer<typeof createHubFormSchema>) => void
+}
+
+function CreateHubForm({ onSubmit }: CreateHubFormProp) {
+
+
+    const form = useForm<z.infer<typeof createHubFormSchema>>({
+        resolver: zodResolver(createHubFormSchema),
+        defaultValues: {
+
+        },
+    })
+
+    const [data, setData] = useState<{ label: string, value: string }[]>([])
+
+    useEffect(() => {
+        fetch("http://localhost:8000/api/v1/auth/users?role=hub_manager")
+            .then((res) => res.json())
+            .then((data: User[]) => {
+                const managers = data
+                    .map((user) => ({ label: user.username, value: user.username }))
+
+                console.log(managers);
+                setData(managers)
+            })
+    }, [])
+
     return (
-        <Dialog>
+        <Form {...form} >
+            <form id="hub-create" onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Tên điểm tập kết</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormDescription>
+                                Tên điểm tập kết. Nên bắt đầu bằng "Điểm tập kết" để dễ xác định
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <AddressInput form={form}></AddressInput>
+
+                <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Số điện thoại</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormDescription>
+                                Số điện thoại bàn của điểm tập kết.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="zipcode"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mã bưu chính</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormDescription>
+                                Mã bưu chính định danh địa chỉ điểm tập kết.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="manager"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Quản lý</FormLabel>
+                            <FormControl>
+                                <UsernameCombox form={form} field={field} usernames={data}></UsernameCombox>
+                            </FormControl>
+                            <FormDescription>
+                                Tên người dùng của trưởng điểm tập kết.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </form>
+        </Form>
+    )
+}
+
+interface EditHubFormProp {
+    hub: Hub,
+    onSubmit: (values: z.infer<typeof createHubFormSchema>) => void
+}
+
+function EditHubForm({ hub, onSubmit }: EditHubFormProp) {
+
+
+    const [province, district, ward] = hub.address.split(", ")
+
+    const form = useForm<z.infer<typeof createHubFormSchema>>({
+        resolver: zodResolver(createHubFormSchema),
+        defaultValues: {
+
+            provice: province,
+            district: district,
+            ward: ward,
+            name: hub.name,
+            manager: hub.manager,
+            phone: hub.phone,
+            zipcode: hub.zipcode,
+        },
+    })
+
+    const [data, setData] = useState<{ label: string, value: string }[]>([])
+
+    useEffect(() => {
+        fetch("http://localhost:8000/api/v1/auth/users?role=hub_manager")
+            .then((res) => res.json())
+            .then((data: User[]) => {
+                const managers = data
+                    .map((user) => ({ label: user.username, value: user.username }))
+
+                console.log(managers);
+                setData(managers)
+            })
+    }, [])
+
+    return (
+        <Form {...form} >
+            <form id="hub-edit" onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Tên điểm tập kết</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormDescription>
+                                Tên điểm tập kết. Nên bắt đầu bằng "Điểm tập kết" để dễ xác định
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <AddressInput form={form}></AddressInput>
+
+                <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Số điện thoại</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormDescription>
+                                Số điện thoại bàn của điểm tập kết.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="zipcode"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mã bưu chính</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormDescription>
+                                Mã bưu chính định danh địa chỉ điểm tập kết.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="manager"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Quản lý</FormLabel>
+                            <FormControl>
+                                <UsernameCombox form={form} field={field} usernames={data}></UsernameCombox>
+                            </FormControl>
+                            <FormDescription>
+                                Tên người dùng của trưởng điểm tập kết.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </form>
+        </Form>
+    )
+}
+
+
+export function AddHubDialog({ callback }: { callback: (row: Hub) => void }) {
+
+    const [open, setOpen] = useState(false);
+    function onSubmit(values: z.infer<typeof createHubFormSchema>) {
+
+        setOpen(false);
+
+        const payload = {
+            name: values.name,
+            phone: values.phone,
+            zipcode: values.zipcode,
+            manager: values.manager,
+            address: `${values.ward}, ${values.district}, ${values.provice}`
+        }
+
+        fetch("http://localhost:8000/api/v1/hubs/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(payload),
+        }).then(resp => resp.json())
+            .then(data => {
+                callback(data);
+            })
+
+        // console.log(selected)
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button
                     variant="default"
@@ -131,7 +380,7 @@ export function AddHubDialog() {
                     <p>Thêm điểm tập kết</p>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[800px] h-96">
+            <DialogContent className="sm:max-w-[800px]">
                 <DialogHeader>
                     <DialogTitle>Cập nhật điểm tập kết</DialogTitle>
                     <DialogDescription>
@@ -139,69 +388,10 @@ export function AddHubDialog() {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Tên
-                        </Label>
-                        <Input id="name" value="" className="col-span-6" />
-                    </div>
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="address" className="text-right">
-                            Địa chỉ
-                        </Label>
-                        <div className="col-span-2">
-                            <Select>
-                                <SelectTrigger className="">
-                                    <SelectValue placeholder="Tỉnh/Thành Phố" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Hà nội</SelectItem>
-                                    <SelectItem value="2">Bắc Ninh</SelectItem>
-                                    <SelectItem value="3">Quảng Nam</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="col-span-2">
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Quận/Huyện" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Hà nội</SelectItem>
-                                    <SelectItem value="2">Bắc Ninh</SelectItem>
-                                    <SelectItem value="3">Quảng Nam</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-
-                        <div className="col-span-2">
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Xã/Phường" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Hà nội</SelectItem>
-                                    <SelectItem value="2">Bắc Ninh</SelectItem>
-                                    <SelectItem value="3">Quảng Nam</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="manager" className="text-right">
-                            Quản lý
-                        </Label>
-                        <Input id="manager" value="Phạm Văn Phúc" className="col-span-6" />
-                    </div>
-                    <div className="grid grid-cols-7 items-center gap-4">
-                        <Label htmlFor="phone" className="text-right">
-                            Số điện thoại
-                        </Label>
-                        <Input id="phone" value="" className="col-span-6" />
-                    </div>
+                    <CreateHubForm onSubmit={onSubmit} />
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Xác nhận</Button>
+                    <Button form="hub-create" type="submit">Xác nhận</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

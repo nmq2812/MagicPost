@@ -61,6 +61,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         }
 
         localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("token", token.access_token);
 
         router.push("/admin/order")
     }

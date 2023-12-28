@@ -8,7 +8,7 @@ export default function ItemPage() {
     const [data, setData] = useState<{ name: string, zipcode: string }[]>([])
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/v1/auth/users")
+        fetch("http://localhost:8000/api/v1/offices/")
             .then((res) => res.json())
             .then(data => {
                 return data.map((office: any) => {
