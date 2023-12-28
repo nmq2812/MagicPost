@@ -3,6 +3,21 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
+
+import { cn } from "@/lib/utils"
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+} from "@/components/ui/command"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -18,6 +33,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import React from "react"
 import { Brand } from "@/components/brand"
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
+import { ZipcodeInput } from "./comboxbox"
 
 
 
@@ -35,7 +52,11 @@ const getPageMargins = () => {
 };
 
 
-export const ItemCreateForm = React.forwardRef((props, ref: React.ForwardedRef<HTMLFormElement>) => {
+interface ItemCreateFormProp {
+    zipcodes: { name: string, zipcode: string }[]
+}
+
+export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp, ref: React.ForwardedRef<any>) => {
 
     const formSchema = z.object({
         sender_name: z.string().min(2, {
@@ -96,6 +117,23 @@ export const ItemCreateForm = React.forwardRef((props, ref: React.ForwardedRef<H
         console.log(values)
     }
 
+    const languages = [
+        { label: "English", value: "en" },
+        { label: "French", value: "fr" },
+        { label: "German", value: "de" },
+        { label: "Spanish", value: "es" },
+        { label: "Portuguese", value: "pt" },
+        { label: "Russian", value: "ru" },
+        { label: "Japanese", value: "ja" },
+        { label: "Korean", value: "ko" },
+        { label: "Chinese", value: "zh" },
+    ]
+
+    const formZipcodes = zipcodes.map((zipcode) => ({
+        label: zipcode.name,
+        value: zipcode.zipcode
+    }))
+
     return (
         <Form {...form}>
             <form ref={ref} id="item-create" onSubmit={form.handleSubmit(onSubmit)} className="w-full p-1">
@@ -128,7 +166,6 @@ export const ItemCreateForm = React.forwardRef((props, ref: React.ForwardedRef<H
                         />
 
                         <FormField
-
                             control={form.control}
                             name="sender_address"
                             render={({ field }) => (
@@ -144,11 +181,31 @@ export const ItemCreateForm = React.forwardRef((props, ref: React.ForwardedRef<H
                                 </FormItem>
                             )}
                         >
-
                         </FormField>
 
                         <FormField
 
+                            control={form.control}
+                            name="sender_zipcode"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Mã bưu chính</FormLabel>
+                                    <FormControl>
+
+                                        <ZipcodeInput form={form} field={field} zipcodes={zipcodes}></ZipcodeInput>
+
+                                    </FormControl>
+                                    <FormDescription>
+                                        Mã bưu chính là dãy số định danh điểm giao dịch tại đây
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        >
+
+                        </FormField>
+
+                        <FormField
                             control={form.control}
                             name="sender_phone"
                             render={({ field }) => (
@@ -166,6 +223,8 @@ export const ItemCreateForm = React.forwardRef((props, ref: React.ForwardedRef<H
                         >
 
                         </FormField>
+
+
 
                         <FormField
 
@@ -194,6 +253,8 @@ export const ItemCreateForm = React.forwardRef((props, ref: React.ForwardedRef<H
                         >
 
                         </FormField>
+
+
 
                         <FormField
 
@@ -276,6 +337,24 @@ export const ItemCreateForm = React.forwardRef((props, ref: React.ForwardedRef<H
                             )}
                         >
                         </FormField>
+
+                        <FormField
+
+                            control={form.control}
+                            name="receiver_zipcode"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Mã bưu chính</FormLabel>
+                                    <FormControl>
+                                        <ZipcodeInput form={form} field={field} zipcodes={zipcodes}></ZipcodeInput>
+                                    </FormControl>
+                                    <FormDescription>
+                                        Mã bưu chính của điểm giao dịch đích
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        ></FormField>
 
                         <FormField
 

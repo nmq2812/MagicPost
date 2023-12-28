@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button"
 import { useRef } from "react"
 import { useReactToPrint } from "react-to-print";
 
+interface CreateItemTabProp {
+    zipcodes: { name: string, zipcode: string }[]
+}
 
-
-export function CreateItemTab() {
+export function CreateItemTab({ zipcodes }: CreateItemTabProp) {
 
     const componentRef = useRef<HTMLFormElement>(null);
     const handlePrint = useReactToPrint({
@@ -24,7 +26,7 @@ export function CreateItemTab() {
                 <AdminTitle title="Tạo đơn hàng" />
             </div>
             <ScrollArea className="flex-1 w-full overflow-y-auto p-6 border rounded">
-                <ItemCreateForm ref={componentRef} />
+                <ItemCreateForm zipcodes={zipcodes} ref={componentRef} />
 
                 <div className="flex gap-2">
                     <span className="flex-1"></span>
