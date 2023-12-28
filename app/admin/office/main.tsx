@@ -10,7 +10,7 @@ interface OfficeTabProps {
     offices: Office[]
 }
 
-export default async function OfficeManagementTab({ offices }: OfficeTabProps) {
+export default function OfficeManagementTab({ offices }: OfficeTabProps) {
 
 
     return (

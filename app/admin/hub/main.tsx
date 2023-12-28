@@ -10,7 +10,7 @@ interface HubTabProps {
     hubs: Hub[]
 }
 
-export default async function HubManagementTab({ hubs }: HubTabProps) {
+export default function HubManagementTab({ hubs }: HubTabProps) {
 
 
     return (

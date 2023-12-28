@@ -10,7 +10,7 @@ interface UserTabProps {
     users: User[]
 }
 
-export default async function UserManagementTab({ users }: UserTabProps) {
+export default function UserManagementTab({ users }: UserTabProps) {
 
 
     return (

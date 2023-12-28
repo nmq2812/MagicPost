@@ -1,22 +1,19 @@
+import { useEffect, useState } from "react"
 import { User } from "./columns"
 import UserManagementTab from "./main"
 
 
-async function getUsers(): Promise<User[]> {
+export default function UserManagementPage() {
 
-    const response = await fetch("http://localhost:8000/api/v1/auth/users")
+    const [data, setData] = useState<User[]>([])
 
-    if (!response.ok) {
-        throw new Error(response.statusText)
-    }
-
-    return response.json()
-}
-
-
-export default async function UserManagementPage() {
-
-    const data = await getUsers()
+    useEffect(() => {
+        fetch("http://localhost:8000/api/v1/auth/users")
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data)
+            })
+    }, [])
 
 
     return (

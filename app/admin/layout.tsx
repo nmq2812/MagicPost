@@ -13,13 +13,6 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-
-    // ADMIN = "admin"
-    // PRESIDENT = "president"
-    // HUB_MANAGER = "hub_manager"
-    // OFFICE_MANAGER = "office_manager"
-    // HUB_STAFF = "hub_staff"
-    // OFFICE_STAFF = "office_staff"
     const navigationLinks = [
         {
             title: "Thống kê",
