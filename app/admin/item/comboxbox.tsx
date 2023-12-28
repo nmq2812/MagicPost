@@ -51,7 +51,7 @@ export function ZipcodeInput({ form, field, zipcodes }: ZipcodeInputProp) {
                     </Button>
                 </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="p-0 w-full">
+            <PopoverContent className="p-0 w-96">
                 <Command>
                     <CommandInput
                         placeholder="Tìm điểm giao dịch"
@@ -64,7 +64,7 @@ export function ZipcodeInput({ form, field, zipcodes }: ZipcodeInputProp) {
                                 value={zipcode.name}
                                 key={zipcode.zipcode}
                                 onSelect={() => {
-                                    form.setValue("sender_zipcode", zipcode.zipcode)
+                                    form.setValue(field.name, zipcode.zipcode)
                                 }}
                             >
                                 {zipcode.name}
