@@ -51,14 +51,14 @@ export function ZipcodeInput({ form, field, zipcodes }: ZipcodeInputProp) {
                     </Button>
                 </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="p-0 w-96">
+            <PopoverContent className="p-0 w-96 h-96 ">
                 <Command>
                     <CommandInput
                         placeholder="Tìm điểm giao dịch"
                         className="h-9"
                     />
                     <CommandEmpty>Not found.</CommandEmpty>
-                    <CommandGroup className="w-full">
+                    <CommandGroup className="w-full overflow-y-auto">
                         {zipcodes.map((zipcode) => (
                             <CommandItem
                                 value={zipcode.name}
