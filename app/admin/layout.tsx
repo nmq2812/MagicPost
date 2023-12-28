@@ -34,7 +34,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         },
         {
             title: "Cài đặt tài khoản",
-            href: "/admin/profile",
+            href: "/admin/setting",
             icon: <Settings strokeWidth={1} />
         }
     ]
