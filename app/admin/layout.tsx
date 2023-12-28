@@ -2,7 +2,7 @@
 import { Brand } from "@/components/brand"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { LogOut, PieChart, Settings, Store, User, Users, Warehouse } from "lucide-react"
+import { LogOut, Package, PieChart, Settings, Store, User, Users, Warehouse } from "lucide-react"
 import { SidebarNav } from "@/components/admin-nav"
 
 interface AdminLayoutProps {
@@ -16,6 +16,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             title: "Thống kê",
             href: "/admin/statistics",
             icon: <PieChart strokeWidth={1} />
+        },
+        {
+            title: "Tạo đơn hàng",
+            href: "/admin/item",
+            icon: <Package strokeWidth={1} absoluteStrokeWidth />
         },
         {
             title: "Quản lý Nhân viên",

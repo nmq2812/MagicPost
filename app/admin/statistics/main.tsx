@@ -130,7 +130,7 @@ export function StatisticsTab({ items }: StatsticsProp) {
     temp.push({ name: "Success", value: items.length })
 
     return (
-        <div className="h-full flex justify-center bg-green-400 flex-col gap-4 p-3">
+        <div className="h-full flex justify-center flex-col gap-4 p-3">
 
             <div>
                 {/* <ComboboxDemo /> */}
