@@ -173,8 +173,12 @@ function CreateOrderForm({ zipcodes, table }: OrderDialogProps) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
 
+        const selected = table.getSelectedRowModel().rows.map((row: { original: any; }) => {
+            return row.original
+        })
+
         console.log(values)
-        console.log(table.getFilteredRowModel().rows)
+        console.log(selected)
     }
 
     return (
@@ -219,9 +223,8 @@ function CreateOrderDialog({ zipcodes, table }: OrderDialogProps) {
                     <CreateOrderForm table={table} zipcodes={zipcodes}></CreateOrderForm>
                 </div>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button form="order-create" type="submit">Tạo đơn chuyển hàng</Button>
-                    </DialogClose>
+
+                    <Button form="order-create" type="submit">Tạo đơn chuyển hàng</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

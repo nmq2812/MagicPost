@@ -1,48 +1,112 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod"
+import { Button } from "./ui/button";
+import { redirect, useRouter } from "next/navigation";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-    const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
-    async function onSubmit(event: React.SyntheticEvent) {
-        event.preventDefault()
-        setIsLoading(true)
-        // TODO: Replace with your login logic
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 3000)
+    const router = useRouter()
+
+    const formSchema = z.object({
+        username: z.string().min(2).max(50),
+        password: z.string({
+            required_error: "Mật khẩu không được để trống"
+        }).min(2),
+    })
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            username: "",
+            password: "",
+        },
+    })
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values)
+
+        const resp = await fetch("http://localhost:8000/api/v1/auth/token", {
+            method: "POST",
+            body: new URLSearchParams({
+                username: values.username,
+                password: values.password,
+            }),
+        })
+
+        if (!resp.ok) {
+            return
+        }
+
+        const token: { access_token: string, token_type: string } = await resp.json()
+
+        const user = await fetch("http://localhost:8000/api/v1/auth/users/me", {
+            headers: {
+                Authorization: `${token.token_type} ${token.access_token}`
+            }
+        }).then(res => res.json());
+
+        const userData = {
+            ...user,
+            authHeader: `${token.token_type} ${token.access_token}`
+        }
+
+        localStorage.setItem("userData", JSON.stringify(userData));
+
+        router.push("/admin/order")
     }
 
     return (
         <div className={cn("grid gap-6", className)} {...props}>
-            <form onSubmit={onSubmit}>
-                <div className="grid gap-2">
-                    <div className="grid gap-2">
-                        <Label htmlFor="username">Mã nhân viên</Label>
-                        <Input id="username" type="text" placeholder="MP23010987" />
-                    </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="password">Mật khẩu</Label>
-                        <Input id="password" type="password" />
-                    </div>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
 
-                    <Button className="mt-12" disabled={isLoading}>
-                        {isLoading && (
-                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    <FormField
+                        control={form.control}
+                        name="username"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Username</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="ppvan" {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                    Tên người dùng được cấp cho nhân viên
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
                         )}
-                        Đăng nhập
-                    </Button>
-                </div>
-            </form>
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Mật khẩu</FormLabel>
+                                <FormControl>
+                                    <Input type="password" placeholder="" {...field} />
+                                </FormControl>
+                                <FormDescription>
+
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <Button className="mt-4" type="submit">Đăng nhập</Button>
+                </form>
+            </Form>
         </div>
     )
 }
