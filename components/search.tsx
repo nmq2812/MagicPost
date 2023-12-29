@@ -1,40 +1,50 @@
 "use client"
 import SearchBar from './ui/search-bar'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import SearchResults from './ui/search-results';
+import { Order } from '@/app/admin/components/data/order'
 
-interface Order {
-    id: number;
-    code: string;
-    name: string;
-    price: string
-}
-
-const data = [
+const data: Order[] = [
     {
-        id: 0,
         code: "a01",
-        name: "Keyboard Logitech",
-        price: "10$"
+        customer: {
+            name: 'Alice Smith',
+            email: 'alice@example.com',
+            phone: '111-222-3333',
+            address: '456 Elm St, City, Country',
+        },
+        items: [
+            {
+            name: 'Product A',
+            price: 20,
+            quantity: 3,
+            office1: "Hà Nội",
+            office2: "Dà Nẵng"
+            }
+        ],
+        total: 85,
     },
     {
-        id: 1,
         code: "a02",
-        name: "Gundam ax-00",
-        price: "100$"
+        customer: {
+            name: 'Bob Johnson',
+            email: 'bob@example.com',
+            phone: '444-555-6666',
+            address: '789 Oak St, City, Country',
+        },
+        items: [
+            {
+            name: 'Product C',
+            price: 30,
+            quantity: 1,
+            office1: "Cần Thơ",
+            office2: "Nam Định"
+            },
+        ],
+        total: 30,
     },
-    {
-        id: 2,
-        code: "a03",
-        name: "Washing-machine",
-        price: "2000$"
-    },
-    {
-        id: 3,
-        code: "a04",
-        name: "Laptop Acer nitro V",
-        price: "500$"
-    },
-]
+    // Thêm các đơn hàng khác ở đây nếu bạn cần
+  ];
 
 export default function Search() {
     const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
@@ -44,26 +54,20 @@ export default function Search() {
             setFilteredOrders([]);
         } else {
             const foundOrders = data.filter(order =>
-            order.code.toLowerCase().includes(searchTerm.toLowerCase())
+                order.code.toLowerCase().includes(searchTerm.toLowerCase())
             );
             setFilteredOrders(foundOrders);
         }
     };
-    
+    console.log(filteredOrders)
     return (
+        
         <div className="h-screen mx-auto grid place-items-center" id="search">
             <div className="p-4 rounded-lg">
                 <h1 className="grid place-items-center text-3xl font-bold tracking-tight m-1">Tra cứu vận đơn</h1>
                 <SearchBar orders={data} onSearch={handleSearch} />
-                {/* Hiển thị danh sách đơn hàng */}
                 {filteredOrders.length > 0 && (
-                    <ul>
-                    {filteredOrders.map(order => (
-                        <li key={order.id}>
-                        {order.code} - {order.name} - {order.price}
-                        </li>
-                    ))}
-                    </ul>
+                    <SearchResults results={filteredOrders}></SearchResults>
                 )}
             </div>
         </div>

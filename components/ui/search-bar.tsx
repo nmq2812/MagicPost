@@ -2,13 +2,9 @@ import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Order } from '@/app/admin/components/data/order'
 
-interface Order {
-    id: number;
-    code: string;
-    name: string;
-    price: string
-}
+
 
 const SearchBar: React.FC<{ orders: Order[]; onSearch: (searchTerm: string) => void }> = ({ orders, onSearch }) =>  {
     const [searchTerm, setSearchTerm] = useState('');
