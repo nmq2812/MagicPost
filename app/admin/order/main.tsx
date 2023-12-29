@@ -5,6 +5,7 @@ import { DataTable } from "./data-table"
 import { Item, columns } from "./columns"
 import { useEffect, useState } from "react";
 import { date } from "zod";
+import { Button } from "@/components/ui/button";
 
 
 interface OrderManagerTabProps {
@@ -14,16 +15,26 @@ interface OrderManagerTabProps {
 
 export function OrderManagerTab() {
 
+    const [outDate, setOutDate] = useState(true);
     const [orders, setOrders] = useState<Item[]>([]);
     const [zipcodes, setZipcodes] = useState<{ id: number, name: string, zipcode: string }[]>([]);
 
     useEffect(() => {
+        if (!outDate) return
         // const user: { username: string, role: string } = localStorage.getItem("userData");
         fetch("http://localhost:8000/api/v1/items", {
 
         }).then((resp) => resp.json()).then((data) => {
             setOrders(data);
+            console.log(data);
+            setOutDate(false);
         })
+
+    }, [outDate]);
+
+
+    useEffect(() => {
+        if (!outDate) return
 
         fetch("http://localhost:8000/api/v1/offices/")
             .then((resp) => resp.json())
@@ -33,10 +44,9 @@ export function OrderManagerTab() {
                 })
 
                 setZipcodes(temp);
+                setOutDate(false);
             })
-
-    }, []);
-
+    }, [outDate]);
 
 
     return (
@@ -46,6 +56,7 @@ export function OrderManagerTab() {
                 <Clock />
             </div>
 
+            <Button id="refresh-item" className="hidden" onClick={() => setOutDate(true)}>...</Button>
             <div className="flex-1 w-full h-96">
                 <DataTable zipcodes={zipcodes} columns={columns} data={orders} />
             </div>

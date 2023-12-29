@@ -89,31 +89,6 @@ export const columns: ColumnDef<Item>[] = [
             )
         }
     },
-
-    {
-        accessorKey: "weight",
-        header: ({ column }) => {
-            return (
-                <DataTableColumnHeader column={column} title="Khối lượng" />
-            )
-        },
-        cell: ({ row }) => {
-            const weight = parseFloat(row.getValue("weight")).toFixed(2);
-            return `${weight} kg`
-        }
-    },
-    {
-        accessorKey: "cod",
-        header: ({ column }) => {
-            return (
-                <DataTableColumnHeader column={column} title="Phí thu hộ" />
-            )
-        },
-        cell: ({ row }) => {
-            const cod = parseInt(row.getValue("cod"));
-            return formatVietnameseCurrency(cod);
-        }
-    },
     {
         accessorKey: "fee",
         header: ({ column }) => {
@@ -128,10 +103,19 @@ export const columns: ColumnDef<Item>[] = [
     },
 
     {
+        accessorKey: "current_pos",
+        header: "Vị trí hiện tại",
+        cell: ({ row }) => {
+            const current_pos = row.getValue("current_pos");
+            return current_pos;
+        }
+    },
+
+    {
         accessorKey: "status",
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Trảng thái" />
+                <DataTableColumnHeader column={column} title="Trạng thái" />
             )
         },
         cell: ({ row }) => {
@@ -152,7 +136,7 @@ export const columns: ColumnDef<Item>[] = [
     {
         id: "actions",
         header: "Thao tác",
-        cell: ({ row, table }) => {
+        cell: ({ row }) => {
             const item = row.original;
             return (
                 <div className="flex gap-3">

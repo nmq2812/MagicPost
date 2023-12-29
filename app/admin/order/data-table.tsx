@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useState } from "react";
 import { DataTablePagination } from "./pagination";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./dialog";
@@ -39,6 +39,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ZipcodeInput } from "../item/comboxbox";
+import { useToast } from "@/components/ui/use-toast";
 
 
 interface DataTableProps<TData, TValue> {
@@ -155,31 +156,27 @@ export function DataTable<TData, TValue>({
 
 interface OrderDialogProps {
     table: any,
-    zipcodes: { id: number, name: string, zipcode: string }[]
+    zipcodes: { id: number, name: string, zipcode: string }[],
 }
 
-function CreateOrderForm({ zipcodes, table }: OrderDialogProps) {
+interface OrderFormProps {
+    table: any,
+    zipcodes: { id: number, name: string, zipcode: string }[],
+    onSubmit: (values: z.infer<typeof createOrderSchema>) => void
+}
 
-    const formSchema = z.object({
-        zipcode: z.string().regex(/^\d{5}$/),
-    })
+const createOrderSchema = z.object({
+    zipcode: z.string().regex(/^\d{5}$/),
+})
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+function CreateOrderForm({ zipcodes, table, onSubmit }: OrderFormProps) {
+
+    const form = useForm<z.infer<typeof createOrderSchema>>({
+        resolver: zodResolver(createOrderSchema),
         defaultValues: {
             zipcode: "",
         },
     })
-
-    function onSubmit(values: z.infer<typeof formSchema>) {
-
-        const selected = table.getSelectedRowModel().rows.map((row: { original: any; }) => {
-            return row.original
-        })
-
-        console.log(values)
-        console.log(selected)
-    }
 
     return (
         <Form {...form} >
@@ -207,8 +204,43 @@ function CreateOrderForm({ zipcodes, table }: OrderDialogProps) {
 
 function CreateOrderDialog({ zipcodes, table }: OrderDialogProps) {
 
+    const [open, setOpen] = useState(false);
+    const { toast } = useToast()
+
+    function onSubmit(values: z.infer<typeof createOrderSchema>) {
+
+        setOpen(false);
+
+        const selected = table.getSelectedRowModel().rows.map((row: { original: any; }) => {
+            return row.original
+        })
+
+        const payload = {
+            items: selected,
+            zipcode: values.zipcode
+        }
+
+        fetch(`http://localhost:8000/api/v1/items/move`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(payload),
+        }).then(resp => resp.json())
+            .then(data => {
+                document?.getElementById("refresh-item")?.click();
+                // console.log(document?.getElementById("refresh-hub"));
+                toast({
+                    description: "Đã tạo đơn hàng thành công.",
+                })
+
+                console.log(data);
+            })
+    }
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="default">Tạo đơn chuyển hàng</Button>
             </DialogTrigger>
@@ -220,7 +252,7 @@ function CreateOrderDialog({ zipcodes, table }: OrderDialogProps) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                    <CreateOrderForm table={table} zipcodes={zipcodes}></CreateOrderForm>
+                    <CreateOrderForm onSubmit={onSubmit} table={table} zipcodes={zipcodes}></CreateOrderForm>
                 </div>
                 <DialogFooter>
 
@@ -235,8 +267,48 @@ function CreateOrderDialog({ zipcodes, table }: OrderDialogProps) {
 
 function ConfirmOrderDialog({ zipcodes, table }: OrderDialogProps) {
 
+
+    const [open, setOpen] = useState(false);
+    const { toast } = useToast();
+
+    function onSubmit(values: z.infer<typeof createOrderSchema>) {
+
+        setOpen(false);
+
+        const selected = table.getSelectedRowModel().rows.map((row: { original: any; }) => {
+            return row.original
+        })
+
+        const payload = {
+            items: selected,
+            zipcode: values.zipcode
+        }
+
+        fetch(`http://localhost:8000/api/v1/items/confirm`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(payload),
+        }).then(resp => resp.json())
+            .then(data => {
+                document?.getElementById("refresh-item")?.click();
+                // console.log(document?.getElementById("refresh-hub"));
+                toast({
+                    description: "Đã xác nhận đơn thành công",
+                })
+
+                console.log(data);
+            })
+
+        console.log(values)
+        console.log(selected)
+    }
+
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen} >
             <DialogTrigger asChild>
                 <Button variant="default">Xác nhận đơn hàng</Button>
             </DialogTrigger>
@@ -248,7 +320,7 @@ function ConfirmOrderDialog({ zipcodes, table }: OrderDialogProps) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                    <CreateOrderForm table={table} zipcodes={zipcodes}></CreateOrderForm>
+                    <CreateOrderForm onSubmit={onSubmit} table={table} zipcodes={zipcodes}></CreateOrderForm>
                 </div>
                 <DialogFooter>
                     <Button form="order-create" type="submit">Tạo đơn chuyển hàng</Button>
