@@ -20,12 +20,20 @@ export default function UserManagementPage() {
     useEffect(() => {
         if (!outDated) return
 
-        fetch("http://localhost:8000/api/v1/auth/users")
+        const user: { username: string, role: string } = localStorage.getItem("userData");
+        let url = "http://localhost:8000/api/v1/auth/users"
+
+        fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
             .then((res) => res.json())
             .then((data) => {
                 setData(data)
                 setOutDated(false);
             })
+
     }, [outDated])
 
 

@@ -323,7 +323,7 @@ function ConfirmOrderDialog({ zipcodes, table }: OrderDialogProps) {
                     <CreateOrderForm onSubmit={onSubmit} table={table} zipcodes={zipcodes}></CreateOrderForm>
                 </div>
                 <DialogFooter>
-                    <Button form="order-create" type="submit">Tạo đơn chuyển hàng</Button>
+                    <Button form="order-create" type="submit">Xác nhận</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
