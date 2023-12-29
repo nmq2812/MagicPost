@@ -107,9 +107,8 @@ export function EditHubDialog({ hub }: { hub: Hub }) {
 
 export function DeleteHubDialog({ hub }: { callback: () => void, hub: Hub }) {
 
+    const { toast } = useToast();
     function onSubmit() {
-
-        const { toast } = useToast();
 
 
         fetch(`http://localhost:8000/api/v1/hubs/${hub.id}/`, {
