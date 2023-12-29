@@ -11,6 +11,8 @@ export type Office = {
     address: string
     manager: string
     phone: string
+    hub_id: number,
+    zipcode: string
 }
 
 export const columns: ColumnDef<Office>[] = [
@@ -34,6 +36,14 @@ export const columns: ColumnDef<Office>[] = [
     {
         accessorKey: "address",
         header: "Địa chỉ",
+    },
+    {
+        accessorKey: "zipcode",
+        header: "Mã bưu chính",
+    },
+    {
+        accessorKey: "hub_id",
+        header: "Điểm tập kết",
     },
     {
         accessorKey: "manager",

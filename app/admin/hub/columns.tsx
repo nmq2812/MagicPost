@@ -6,6 +6,7 @@ import { DeleteHubDialog, EditHubDialog } from "./hub-dialog";
 import { DataTableColumnHeader } from "./column-header";
 
 export type Hub = {
+    zipcode: string | undefined;
     id: number
     name: string
     address: string
@@ -46,13 +47,13 @@ export const columns: ColumnDef<Hub>[] = [
     {
         id: "actions",
         header: "Thao tác",
-        cell: ({ row }) => {
-            const hub = row.original
-
+        cell: ({ row, table }) => {
+            const hub = row.original;
+            const meta: any = table.options.meta;
             return (
                 <div className="flex gap-3">
                     <EditHubDialog hub={hub} />
-                    <DeleteHubDialog hub={hub} />
+                    <DeleteHubDialog callback={() => { console.log(meta); }} hub={hub} />
                 </div>
             )
         },

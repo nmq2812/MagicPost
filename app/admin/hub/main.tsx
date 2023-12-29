@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Hub, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { AddHubDialog } from "./hub-dialog";
+import { Button } from "@/components/ui/button";
 
 interface HubTabProps {
-    hubs: Hub[]
+    hubs: Hub[],
+    needRefresh: () => void
 }
 
-export default async function HubManagementTab({ hubs }: HubTabProps) {
+export default function HubManagementTab({ hubs, needRefresh }: HubTabProps) {
 
 
     return (
@@ -21,7 +23,10 @@ export default async function HubManagementTab({ hubs }: HubTabProps) {
             </div>
 
             <div className="flex-1 w-full h-96">
-                <DataTable columns={columns} data={hubs} />
+
+                <Button className="hidden" onClick={() => needRefresh()} id="refresh-hub">...</Button>
+
+                <DataTable needRefresh={needRefresh} columns={columns} data={hubs} />
             </div>
 
         </div>

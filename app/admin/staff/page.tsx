@@ -1,4 +1,7 @@
 
+"use client";
+
+import { useEffect, useState } from "react"
 import { User } from "./columns"
 import UserManagementTab from "./main"
 
@@ -9,24 +12,24 @@ import { z } from "zod"
 
 
 
-async function getUsers(): Promise<User[]> {
+export default function UserManagementPage() {
 
-    const response = await fetch("http://localhost:8000/api/v1/auth/users")
+    const [data, setData] = useState<User[]>([])
+    const [outDated, setOutDated] = useState<boolean>(true);
 
-    if (!response.ok) {
-        throw new Error(response.statusText)
-    }
+    useEffect(() => {
+        if (!outDated) return
 
-    return response.json()
-}
-
-
-export default async function UserManagementPage() {
-
-    const data = await getUsers()
+        fetch("http://localhost:8000/api/v1/auth/users")
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data)
+                setOutDated(false);
+            })
+    }, [outDated])
 
 
     return (
-        <UserManagementTab users={data} />
+        <UserManagementTab users={data} needRefresh={() => setOutDated(true)} />
     )
 }

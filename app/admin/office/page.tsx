@@ -1,25 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Office } from "./columns"
 import OfficeManagementTab from "./main"
 
 
-async function getOffices(): Promise<Office[]> {
 
-    const response = await fetch("http://localhost:8000/api/v1/offices/")
+export default function OfficeManagementPage() {
 
-    if (!response.ok) {
-        throw new Error(response.statusText)
-    }
+    const [data, setData] = useState<Office[]>([])
+    const [outDated, setOutDated] = useState<boolean>(true);
 
-    return response.json()
-}
+    useEffect(() => {
 
+        if (!outDated) return
 
-export default async function OfficeManagementPage() {
-
-    const data = await getOffices()
-
+        fetch("http://localhost:8000/api/v1/offices/")
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data);
+                setOutDated(false);
+            })
+    }, [outDated])
 
     return (
-        <OfficeManagementTab offices={data} />
+        <OfficeManagementTab needRefresh={() => setOutDated(true)} offices={data} />
     )
 }

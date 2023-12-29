@@ -35,6 +35,7 @@ import React from "react"
 import { Brand } from "@/components/brand"
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
 import { ZipcodeInput } from "./comboxbox"
+import { useToast } from "@/components/ui/use-toast"
 
 
 
@@ -53,7 +54,7 @@ const getPageMargins = () => {
 
 
 interface ItemCreateFormProp {
-    zipcodes: { name: string, zipcode: string }[]
+    zipcodes: { id: number, name: string, zipcode: string }[]
 }
 
 export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp, ref: React.ForwardedRef<any>) => {
@@ -87,13 +88,13 @@ export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp
         receiver_phone: z.string().regex(/^(03|05|07|08|09|01[2|6|8|9])([0-9]{8})$/, {
             message: "Số điện thoại không hợp lệ"
         }),
-        cod: z.number().int().min(0, {
+        cod: z.coerce.number().int().min(0, {
             message: "Phí thu hộ không thể âm"
         }),
-        weight: z.number().min(0, {
+        weight: z.coerce.number().min(0, {
             message: "Khối lượng đơn hàng không thể âm"
         }),
-        fee: z.number().int({
+        fee: z.coerce.number().int({
             message: "Chi phí vận chuyển phải là số nguyên"
         }).min(0, {
             message: "Chi phí vận chuyển không thể âm"
@@ -101,6 +102,8 @@ export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp
         type: z.nativeEnum(ItemType),
         notes: z.string()
     })
+
+    const { toast } = useToast();
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
@@ -114,25 +117,33 @@ export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
 
-        console.log(values)
+        console.log(values);
+
+        fetch("http://localhost:8000/api/v1/items/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(values),
+        }).then((resp) => {
+
+            if (resp.ok) {
+                toast({
+                    description: "Đã tạo đơn hàng",
+                })
+            }
+
+            return resp.json();
+        }).catch((err) => {
+            toast({
+                description: "Tạo đơn hàng thất bại",
+            })
+        })
+
+
+
     }
-
-    const languages = [
-        { label: "English", value: "en" },
-        { label: "French", value: "fr" },
-        { label: "German", value: "de" },
-        { label: "Spanish", value: "es" },
-        { label: "Portuguese", value: "pt" },
-        { label: "Russian", value: "ru" },
-        { label: "Japanese", value: "ja" },
-        { label: "Korean", value: "ko" },
-        { label: "Chinese", value: "zh" },
-    ]
-
-    const formZipcodes = zipcodes.map((zipcode) => ({
-        label: zipcode.name,
-        value: zipcode.zipcode
-    }))
 
     return (
         <Form {...form}>
@@ -406,6 +417,25 @@ export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp
                                     </FormControl>
                                     <FormDescription>
                                         Chi phí vận chuyển đơn hàng
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        >
+                        </FormField>
+
+                        <FormField
+
+                            control={form.control}
+                            name="cod"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Phí thu hộ</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="50000" {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Phí thu hộ khi chuyển đơn hàng
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

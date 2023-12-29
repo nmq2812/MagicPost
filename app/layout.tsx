@@ -24,7 +24,9 @@ export default function RootLayout({
 }) {
     return (
         <html suppressHydrationWarning lang="vi">
-            <body className={cn("bg-background font-sans antialiased", inter.variable, digital.variable)}>{children}</body>
+            <body className={cn("bg-background font-sans antialiased", inter.variable, digital.variable)}>
+                <main>{children}</main>
+            </body>
         </html >
     )
 }
