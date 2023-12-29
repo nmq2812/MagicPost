@@ -24,7 +24,7 @@ import { ControllerRenderProps, UseFormReturn } from "react-hook-form"
 interface ZipcodeInputProp {
     form: UseFormReturn<any>
     field: ControllerRenderProps<any, any>
-    zipcodes: { name: string, zipcode: string }[]
+    zipcodes: { id: number, name: string, zipcode: string }[],
 }
 
 interface AddressInputProp {
@@ -66,7 +66,7 @@ export function ZipcodeInput({ form, field, zipcodes }: ZipcodeInputProp) {
                         {zipcodes.map((zipcode) => (
                             <CommandItem
                                 value={zipcode.name}
-                                key={zipcode.zipcode}
+                                key={`${zipcode.id}-${field.name}`}
                                 onSelect={() => {
                                     form.setValue(field.name, zipcode.zipcode)
                                 }}

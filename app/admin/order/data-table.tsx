@@ -44,7 +44,7 @@ import { ZipcodeInput } from "../item/comboxbox";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-    zipcodes: { name: string, zipcode: string }[]
+    zipcodes: { id: number, name: string, zipcode: string }[]
 }
 
 export function DataTable<TData, TValue>({
@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
 
 interface OrderDialogProps {
     table: any,
-    zipcodes: { name: string, zipcode: string }[]
+    zipcodes: { id: number, name: string, zipcode: string }[]
 }
 
 function CreateOrderForm({ zipcodes, table }: OrderDialogProps) {

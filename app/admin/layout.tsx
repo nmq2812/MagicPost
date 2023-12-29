@@ -8,6 +8,7 @@ import { SidebarNav } from "@/components/admin-nav"
 import { RedirectType, redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
+import { useEffect, useState } from "react";
 
 interface AdminLayoutProps {
     children: React.ReactNode
@@ -53,12 +54,25 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         },
     ]
 
+    const [user, setUser] = useState<{ username: string, role: string }>(
+        {
+            username: "",
+            role: "",
+        }
+    );
+    const [allowLinks, setAllowLinks] = useState<typeof navigationLinks>([]);
 
-    const temp = localStorage.getItem("userData")
-    if (!temp) redirect("/login")
-    const userData = JSON.parse(temp);
+    useEffect(() => {
+        const temp = localStorage.getItem("userData");
+        if (!temp) redirect("/login")
+        const userData = JSON.parse(temp);
+        const allowLinks = navigationLinks.filter((link) => link.allow.includes(userData.role));
 
-    const allowLinks = navigationLinks.filter((link) => link.allow.includes(userData.role));
+        setUser(userData);
+        setAllowLinks(allowLinks);
+    }, [])
+
+
 
     function logOut() {
         localStorage.setItem("userData", "");
@@ -77,8 +91,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     <div className="flex items-center justify-start gap-2 p-4 mb-4">
                         <User />
                         <div className="flex flex-col items-center">
-                            <p className="font-large">@{userData.username}</p>
-                            <p className="text-muted-foreground">{userData.role}</p>
+                            <p className="font-large">@{user.username}</p>
+                            <p className="text-muted-foreground">{user.role}</p>
                         </div>
                     </div>
 

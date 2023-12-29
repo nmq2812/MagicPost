@@ -9,7 +9,7 @@ import { useRef } from "react"
 import { useReactToPrint } from "react-to-print";
 
 interface CreateItemTabProp {
-    zipcodes: { name: string, zipcode: string }[]
+    zipcodes: { id: number, name: string, zipcode: string }[]
 }
 
 export function CreateItemTab({ zipcodes }: CreateItemTabProp) {
