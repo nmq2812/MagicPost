@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./column-header"
 import { Checkbox } from "@/components/ui/checkbox"
+import { EditItemDialog } from "../item/item-dialog"
 
 
 enum ItemType {
@@ -148,4 +149,16 @@ export const columns: ColumnDef<Item>[] = [
             }
         }
     },
+    {
+        id: "actions",
+        header: "Thao tác",
+        cell: ({ row, table }) => {
+            const item = row.original;
+            return (
+                <div className="flex gap-3">
+                    <EditItemDialog item={item} />
+                </div>
+            )
+        },
+    }
 ]

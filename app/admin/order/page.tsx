@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { OrderManagerTab } from "./main"
 
 
@@ -33,6 +34,7 @@ async function getZipcodes() {
 
 
 
-export default async function OrderManagerPage() {
-    return <OrderManagerTab zipcodes={await getZipcodes()} orders={await getItems()} />
+export default function OrderManagerPage() {
+
+    return <OrderManagerTab />
 }
