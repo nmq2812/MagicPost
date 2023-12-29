@@ -50,7 +50,7 @@ export function ZipcodeInput({ form, field, zipcodes }: ZipcodeInputProp) {
                             ? zipcodes.find(
                                 (zipcode) => zipcode.zipcode === field.value
                             )?.zipcode
-                            : "Chọn điểm giao dịch"}
+                            : "Chọn mã bưu chính"}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                 </FormControl>
@@ -58,7 +58,7 @@ export function ZipcodeInput({ form, field, zipcodes }: ZipcodeInputProp) {
             <PopoverContent className="p-0 w-96 h-96 ">
                 <Command>
                     <CommandInput
-                        placeholder="Tìm điểm giao dịch"
+                        placeholder="Tìm mã bưu chính"
                         className="h-9"
                     />
                     <CommandEmpty>Not found.</CommandEmpty>

@@ -15,22 +15,6 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
     return (
         <>
-            <div className="md:hidden">
-                <Image
-                    src="/login-cover.png"
-                    width={1280}
-                    height={843}
-                    alt="Authentication"
-                    className="block dark:hidden"
-                />
-                <Image
-                    src="/login-cover.png"
-                    width={1280}
-                    height={843}
-                    alt="Authentication"
-                    className="hidden dark:block"
-                />
-            </div>
             <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
                 <Link
                     href="/"
@@ -47,12 +31,22 @@ export default function AuthenticationPage() {
                         <Brand title="Magic Post" />
                     </div>
                     <div className="relative z-20 mt-auto">
+
+                        <Image
+                            className="mb-3"
+                            alt="Anh login"
+                            src={"/login-cover.png"}
+                            width={800}
+                            height={800}
+                        >
+
+                        </Image>
+
                         <blockquote className="space-y-2">
-                            <p className="text-lg">
-                                &ldquo;Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus doloremque,
-                                quae necessitatibus eligendi hic quasi saepe dolorum, quisquam obcaecati, aut ratione culpa similique repudiandae itaque magnam quia illum voluptatem. Animi.&rdquo;
+                            <p className="text-lg text-justify">
+                                Ngành vận chuyển đóng vai trò quan trọng trong hệ thống kinh tế toàn cầu, là cột mốc quyết định sự liên kết giữa các khu vực và quốc gia.
                             </p>
-                            <footer className="text-sm">Phạm Văn Phúc</footer>
+                            <footer className="text-sm text-muted-foreground">Nguyễn Văn Hòa - Chủ tịch tập đoàn MagicPost</footer>
                         </blockquote>
                     </div>
                 </div>

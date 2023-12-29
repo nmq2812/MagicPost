@@ -116,11 +116,11 @@ export function StatisticsTab() {
 
     const successData = [
         {
-            name: "Success",
-            value: 600 + Math.random() * 50
+            name: "Tỉ lệ đơn hàng thành công",
+            value: 1000 + Math.random() * 50
         },
         {
-            name: "Failed",
+            name: "Tỉ lệ đơn hàng thất bại",
             value: 400 + Math.random() * 50
         }
     ]
@@ -226,6 +226,15 @@ export function StatisticsTab() {
             setRevenue(data);
         }
 
+
+        const data = successData.map(data => {
+            return {
+                name: data.name, value: Math.floor(Math.random() * 320) + 300
+            }
+        })
+
+        setSuccess(data);
+
     }
 
     return (
@@ -276,10 +285,6 @@ function OrderStatusChart({ data }: OrderStatusChartProps) {
         index: number
     }
 
-    const data1 = [
-        { name: 'Thành công', value: 400 },
-        { name: 'Thất bại', value: 300 },
-    ];
     const COLORS = ["#A5AA52", "#CE963B"];
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: RenderLabelProp) => {
@@ -298,7 +303,7 @@ function OrderStatusChart({ data }: OrderStatusChartProps) {
         <PieChart title="Tỉ lệ thành công của đơn hàng">
             <Pie
                 legendType="circle"
-                data={data1}
+                data={data}
                 dataKey="value"
                 nameKey="name"
                 cx="50%"
@@ -308,7 +313,7 @@ function OrderStatusChart({ data }: OrderStatusChartProps) {
                 outerRadius={120}
                 fill="#888888"
             >
-                {data1.map((entry, index) => (
+                {data.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
             </Pie>

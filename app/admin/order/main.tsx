@@ -6,6 +6,7 @@ import { Item, columns } from "./columns"
 import { useEffect, useState } from "react";
 import { date } from "zod";
 import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 
 interface OrderManagerTabProps {
@@ -21,7 +22,7 @@ export function OrderManagerTab() {
 
     useEffect(() => {
         if (!outDate) return
-        // const user: { username: string, role: string } = localStorage.getItem("userData");
+
         fetch("http://localhost:8000/api/v1/items", {
 
         }).then((resp) => resp.json()).then((data) => {
@@ -34,19 +35,44 @@ export function OrderManagerTab() {
 
 
     useEffect(() => {
-        if (!outDate) return
 
-        fetch("http://localhost:8000/api/v1/offices/")
-            .then((resp) => resp.json())
-            .then((data) => {
-                const temp = data.map((office: any) => {
-                    return { name: office.name, zipcode: office.zipcode }
+        const temp = localStorage.getItem("userData");
+        if (!temp) redirect("/login");
+
+        const user: { username: string, role: string } = JSON.parse(temp);
+
+        let url = "http://localhost:8000/api/v1/offices/";
+
+        if (user.role == "hub_staff") {
+            url = "http://localhost:8000/api/v1/offices/";
+
+            fetch(url)
+                .then((resp) => resp.json())
+                .then((data) => {
+                    const temp = data.map((office: any) => {
+                        return { name: office.name, zipcode: office.zipcode }
+                    })
+
+                    setZipcodes(temp);
+                    setOutDate(false);
                 })
 
-                setZipcodes(temp);
-                setOutDate(false);
-            })
-    }, [outDate]);
+        } else if (user.role == "office_staff") {
+            url = "http://localhost:8000/api/v1/hubs/";
+
+            fetch(url)
+                .then((resp) => resp.json())
+                .then((data) => {
+                    const temp = data.map((office: any) => {
+                        return { name: office.name, zipcode: office.zipcode }
+                    })
+
+                    setZipcodes(temp);
+                })
+        }
+
+
+    }, []);
 
 
     return (
