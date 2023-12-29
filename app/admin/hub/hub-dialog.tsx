@@ -167,11 +167,23 @@ function CreateHubForm({ onSubmit }: CreateHubFormProp) {
 
     const [data, setData] = useState<{ label: string, value: string }[]>([])
 
+
+
     useEffect(() => {
-        fetch("http://localhost:8000/api/v1/auth/users?role=hub_manager")
+
+        const user: { username: string, role: string } = localStorage.getItem("userData");
+
+        fetch("http://localhost:8000/api/v1/auth/users",
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        )
             .then((res) => res.json())
             .then((data: User[]) => {
                 const managers = data
+                    .filter((user) => user.role == "hub_manager")
                     .map((user) => ({ label: user.username, value: user.username }))
 
                 console.log(managers);
@@ -281,10 +293,17 @@ function EditHubForm({ hub, onSubmit }: EditHubFormProp) {
     const [data, setData] = useState<{ label: string, value: string }[]>([])
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/v1/auth/users?role=hub_manager")
+        fetch("http://localhost:8000/api/v1/auth/users",
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        )
             .then((res) => res.json())
             .then((data: User[]) => {
                 const managers = data
+                    .filter((user) => user.role == "hub_manager")
                     .map((user) => ({ label: user.username, value: user.username }))
 
                 console.log(managers);
