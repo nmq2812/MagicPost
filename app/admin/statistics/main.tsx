@@ -6,9 +6,11 @@ import { cn } from "@/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { CommandInput, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command"
 import { Command, CheckIcon } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Bar, BarChart, Cell, Legend, Pie, PieChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Select } from "@radix-ui/react-select";
+import { SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
 export interface RevenueChartProps {
@@ -59,90 +61,204 @@ interface Item {
 
 
 
-export function StatisticsTab({ items }: StatsticsProp) {
+export function StatisticsTab() {
 
     const revenueData = [
         {
             name: "Jan",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 50) + 10,
         },
         {
             name: "Feb",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 50) + 10,
         },
         {
             name: "Mar",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Apr",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "May",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Jun",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Jul",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Aug",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Sep",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Oct",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Nov",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
         {
             name: "Dec",
-            total: Math.floor(Math.random() * 5000) + 1000,
+            total: Math.floor(Math.random() * 5) + 10,
         },
     ]
 
-    const statusData = items.reduce((acc, item) => {
-        if (acc[item.status]) {
-            acc[item.status] += 1
-        } else {
-            acc[item.status] = 1
+    const successData = [
+        {
+            name: "Success",
+            value: 600 + Math.random() * 50
+        },
+        {
+            name: "Failed",
+            value: 400 + Math.random() * 50
         }
-        return acc
-    }, {} as { [key in ItemStatus]: number })
+    ]
 
-    const temp = []
+    const officeList = [
+        "Điểm giao dịch Xã Cao Thành",
+        "Điểm giao dịch Xã Trung Tú",
+        "Điểm giao dịch Xã Viên An",
+        "Điểm giao dịch Xã Trầm Lộng",
+        "Điểm giao dịch Xã Tảo Dương Văn",
+        "Điểm giao dịch Xã Vần Chải",
+        "Điểm giao dịch Xã Xà Phìn",
+        "Điểm giao dịch Xã Phố Là",
+        "Điểm giao dịch Xã Phố Cáo",
+        "Điểm giao dịch Xã Lũng Thầu",
+        "Điểm giao dịch Thị trấn Nguyên Bình",
+        "Điểm giao dịch Xã Phan Thanh",
+        "Điểm giao dịch Xã Ca Thành",
+        "Điểm giao dịch Xã Mai Long",
+        "Điểm giao dịch Xã Thanh Thịnh",
+        "Điểm giao dịch Xã Bình Văn",
+        "Điểm giao dịch Xã Thanh Mai",
+        "Điểm giao dịch Xã Như Cố",
+        "Điểm giao dịch Thị trấn Đồng Tâm",
+        "Điểm giao dịch Xã Bình An",
+        "Điểm giao dịch Xã Minh Quang",
+        "Điểm giao dịch Xã Khuôn Hà",
+        "Điểm giao dịch Xã Thượng Lâm",
+        "Điểm giao dịch Xã Hồng Quang",
+        "Điểm giao dịch Xã Hoàng Liên",
+        "Điểm giao dịch Phường Cầu Mây",
+        "Điểm giao dịch Xã Thanh Bình",
+        "Điểm giao dịch Xã Liên Minh",
+        "Điểm giao dịch Xã Tả Van",
+        "Điểm giao dịch Xã Noọng Hẹt",
+        "Điểm giao dịch Xã Hua Thanh",
+        "Điểm giao dịch Xã Thanh Luông",
+        "Điểm giao dịch Xã Phu Luông",
+        "Điểm giao dịch Xã Thanh Yên",
+        "Điểm giao dịch Xã Nậm Sỏ",
+        "Điểm giao dịch Xã Hố Mít",
+        "Điểm giao dịch Xã Mường Khoa",
+        "Điểm giao dịch Xã Phúc Khoa",
+        "Điểm giao dịch Xã Nậm Cần",
+        "Điểm giao dịch Phường Chiềng Cơi",
+        "Điểm giao dịch Phường Chiềng Sinh",
+        "Điểm giao dịch Xã Chiềng Cọ",
+        "Điểm giao dịch Xã Hua La",
+        "Điểm giao dịch Phường Quyết Tâm",
+        "Điểm giao dịch Xã Tân Lĩnh",
+        "Điểm giao dịch Xã Lâm Thượng",
+        "Điểm giao dịch Xã Phan Thanh",
+        "Điểm giao dịch Xã Mường Lai",
+        "Điểm giao dịch Xã Vĩnh Lạc",
+        "Điểm giao dịch Xã Thượng Cốc",
+    ]
 
-    for (const [key, value] of Object.entries(statusData)) {
-        temp.push({ name: key, value: value })
+    const hubList = [
+        "Điểm tập kết Thành phố Hà Nội",
+        "Điểm tập kết Tỉnh Hà Giang",
+        "Điểm tập kết Tỉnh Cao Bằng",
+        "Điểm tập kết Tỉnh Bắc Kạn",
+        "Điểm tập kết Tỉnh Tuyên Quang",
+        "Điểm tập kết Tỉnh Lào Cai",
+        "Điểm tập kết Tỉnh Điện Biên",
+        "Điểm tập kết Tỉnh Lai Châu",
+        "Điểm tập kết Tỉnh Sơn La",
+        "Điểm tập kết Tỉnh Yên Bái",
+        "Điểm tập kết Tỉnh Hoà Bình",
+        "Điểm tập kết Tỉnh Thái Nguyên",
+        "Điểm tập kết Tỉnh Lạng Sơn",
+        "Điểm tập kết Tỉnh Quảng Ninh",
+        "Điểm tập kết Tỉnh Bắc Giang",
+        "Điểm tập kết Tỉnh Phú Thọ",
+        "Điểm tập kết Tỉnh Vĩnh Phúc",
+        "Điểm tập kết Tỉnh Bắc Ninh",
+    ]
+
+    const [revenue, setRevenue] = useState(revenueData);
+    const [success, setSuccess] = useState(successData);
+
+    function updateData(value: string) {
+        if (value.startsWith("Điểm tập kết")) {
+            const data = revenueData.map(data => {
+                return {
+                    name: data.name, total: Math.floor(Math.random() * 70) + 30
+                }
+            })
+            setRevenue(data);
+        } else if (value.startsWith("Điểm giao dịch")) {
+            const data = revenueData.map(data => {
+                return {
+                    name: data.name, total: Math.floor(Math.random() * 50) + 10
+                }
+            })
+            setRevenue(data);
+        } else {
+            const data = revenueData.map(data => {
+                return {
+                    name: data.name, total: Math.floor(Math.random() * 320) + 300
+                }
+            })
+            setRevenue(data);
+        }
+
     }
-
-    temp.push({ name: "Success", value: items.length })
 
     return (
         <div className="h-full flex justify-center flex-col gap-4 p-3">
 
-            <div>
-                {/* <ComboboxDemo /> */}
-            </div>
 
             <div className="flex items-center justify-between">
                 <AdminTitle title="Doanh thu" />
             </div>
-            <div className="flex-1 w-full flex items-center p-6 border rounded">
-                <RevenueChart data={revenueData} />
 
-                <OrderStatusChart data={temp} />
+            <div>
+                <Select onValueChange={updateData}>
+                    <SelectTrigger className="w-1/3">
+                        <SelectValue placeholder="Chọn điểm giao dịch hoặc tập kết" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">Tất cả</SelectItem>
+                        <SelectGroup>
+                            <SelectLabel>Các điểm tập kết</SelectLabel>
+                            {hubList.map((office) => <SelectItem value={office}>{office}</SelectItem>)}
+                        </SelectGroup>
+
+                        <SelectGroup>
+                            <SelectLabel>Các điểm giao dịch</SelectLabel>
+                            {officeList.map((office) => <SelectItem value={office}>{office}</SelectItem>)}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </div>
+
+            <div className="flex-1 w-full flex items-center p-6 border rounded">
+                <RevenueChart data={revenue} />
+                <OrderStatusChart data={success} />
             </div>
         </div>
     )
@@ -220,7 +336,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
                     fontSize={12}
                     tickLine={false}
                     axisLine={false}
-                    tickFormatter={(value) => `$${value}`}
+                    tickFormatter={(value) => `${value} tr`}
                 />
                 <Bar
                     dataKey="total"

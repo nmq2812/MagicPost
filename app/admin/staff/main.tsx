@@ -3,14 +3,16 @@
 import Clock from "@/components/my-clock";
 import { User, columns } from "./columns";
 import { DataTable } from "./data-table";
+import { Button } from "@/components/ui/button";
 
 // import { AddHubDialog } from "./hub-dialog";
 
 interface UserTabProps {
-    users: User[]
+    users: User[],
+    needRefresh: () => void
 }
 
-export default async function UserManagementTab({ users }: UserTabProps) {
+export default function UserManagementTab({ users, needRefresh }: UserTabProps) {
 
 
     return (
@@ -21,6 +23,10 @@ export default async function UserManagementTab({ users }: UserTabProps) {
             </div>
 
             <div className="flex-1 w-full h-96">
+                <Button className="hidden" id="refresh-staff" variant="default" onClick={() => needRefresh()}>
+                    ....
+                </Button>
+
                 <DataTable columns={columns} data={users} />
             </div>
 

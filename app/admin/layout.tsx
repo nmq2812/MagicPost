@@ -1,57 +1,87 @@
+"use client";
 
 import { Brand } from "@/components/brand"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { LogOut, Package, PieChart, Settings, Store, User, Users, Warehouse, BookUp } from "lucide-react"
+import { ClipboardCheck, LogOut, Package, PieChart, Settings, Store, User, Users, Warehouse } from "lucide-react"
 import { SidebarNav } from "@/components/admin-nav"
+import { RedirectType, redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
+import { useEffect, useState } from "react";
 
 interface AdminLayoutProps {
     children: React.ReactNode
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-
     const navigationLinks = [
         {
             title: "Thống kê",
             href: "/admin/statistics",
-            icon: <PieChart strokeWidth={1} />
+            icon: <PieChart strokeWidth={1} />,
+            allow: ["admin", "president"]
         },
         {
             title: "Tạo đơn hàng",
             href: "/admin/item",
-            icon: <Package strokeWidth={1} absoluteStrokeWidth />
+            icon: <Package strokeWidth={1} absoluteStrokeWidth />,
+            allow: ["admin", "office_staff"]
+        },
+        {
+            title: "Quản lý đơn hàng",
+            href: "/admin/order",
+            icon: <ClipboardCheck strokeWidth={1} />,
+            allow: ["admin", "president", "hub_manager", "office_manager", "hub_staff", "office_staff"]
         },
         {
             title: "Quản lý Nhân viên",
             href: "/admin/staff",
-            icon: <Users strokeWidth={1} />
+            icon: <Users strokeWidth={1} />,
+            allow: ["admin", "president", "hub_manager", "office_manager"]
         },
         {
             title: "Quản lý điểm tập kết",
             href: "/admin/hub",
-            icon: <Warehouse strokeWidth={1} />
+            icon: <Warehouse strokeWidth={1} />,
+            allow: ["admin", "president"]
         },
         {
             title: "Quản lý điểm giao dịch",
             href: "/admin/office",
-            icon: <Store strokeWidth={1} />
+            icon: <Store strokeWidth={1} />,
+            allow: ["admin", "president"]
         },
-        {
-            title: "Tạo đơn hàng",
-            href: "/admin/create-order",
-            icon: <BookUp strokeWidth={1} />
-        },
-        {
-            title: "Cài đặt tài khoản",
-            href: "/admin/setting",
-            icon: <Settings strokeWidth={1} />
-        }
     ]
 
+    const [user, setUser] = useState<{ username: string, role: string }>(
+        {
+            username: "",
+            role: "",
+        }
+    );
+    const [allowLinks, setAllowLinks] = useState<typeof navigationLinks>([]);
+
+    useEffect(() => {
+        const temp = localStorage.getItem("userData");
+        if (!temp) redirect("/login")
+        const userData = JSON.parse(temp);
+        const allowLinks = navigationLinks.filter((link) => link.allow.includes(userData.role));
+
+        setUser(userData);
+        setAllowLinks(allowLinks);
+    }, [])
+
+
+
+    function logOut() {
+        localStorage.setItem("userData", "");
+        redirect("/login", RedirectType.replace);
+    }
 
     return (
         <div className="flex gap-2 h-screen w-full p-1 rounded-lg">
+            <Toaster></Toaster>
             <aside className="w-1/6 border rounded-lg bg-background shadow">
                 <div className="flex flex-col px-2 py-3 h-full">
                     <div className="p-2 mb-2 bg-card">
@@ -61,24 +91,27 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     <div className="flex items-center justify-start gap-2 p-4 mb-4">
                         <User />
                         <div className="flex flex-col items-center">
-                            <p className="font-large">@ppvan</p>
-                            <p className="text-muted-foreground">Admin</p>
+                            <p className="font-large">@{user.username}</p>
+                            <p className="text-muted-foreground">{user.role}</p>
                         </div>
                     </div>
 
-                    <SidebarNav items={navigationLinks} />
+                    <SidebarNav items={allowLinks} />
 
                     <span className="flex-1"></span>
 
-                    <NavLink href="/admin/posts">
+                    <NavLink href="/login" >
                         <LogOut strokeWidth={1} />
-                        <p>Đăng xuất</p>
+                        <Button variant={"ghost"} onClick={() => logOut()}>
+                            <p>Đăng xuất</p>
+                        </Button>
                     </NavLink>
                 </div>
             </aside >
             <main className="w-5/6 h-full border shadow p-2 rounded-lg">
                 {children}
             </main>
+
         </div >
     )
 }

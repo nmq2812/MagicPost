@@ -4,6 +4,7 @@ import {
     ColumnDef,
     ColumnFiltersState,
     SortingState,
+    TableState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -22,21 +23,24 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import React from "react"
+import React, { useState } from "react"
 import { DataTablePagination } from "./pagination";
 import { AddHubDialog } from "./hub-dialog";
 import { Input } from "@/components/ui/input";
+import { Hub } from "./columns";
 
 
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    needRefresh: () => void
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    needRefresh
 }: DataTableProps<TData, TValue>) {
 
     const [sorting, setSorting] = React.useState<SortingState>([])
@@ -57,8 +61,10 @@ export function DataTable<TData, TValue>({
             sorting,
             columnFilters,
         },
+        meta: {
+            refresh: () => needRefresh(),
+        }
     })
-
 
 
     return (
@@ -74,7 +80,7 @@ export function DataTable<TData, TValue>({
                     className="max-w-sm"
                 />
 
-                <AddHubDialog />
+                <AddHubDialog callback={() => needRefresh()} />
             </div>
 
             <div className="rounded-md overflow-y-auto flex-1">

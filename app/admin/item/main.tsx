@@ -9,10 +9,11 @@ import { useRef } from "react"
 import { useReactToPrint } from "react-to-print";
 
 interface CreateItemTabProp {
-    zipcodes: { name: string, zipcode: string }[]
+    zipcodes: { id: number, name: string, zipcode: string }[],
+    needRefresh: () => void
 }
 
-export function CreateItemTab({ zipcodes }: CreateItemTabProp) {
+export function CreateItemTab({ zipcodes, needRefresh }: CreateItemTabProp) {
 
     const componentRef = useRef<HTMLFormElement>(null);
     const handlePrint = useReactToPrint({
@@ -25,6 +26,7 @@ export function CreateItemTab({ zipcodes }: CreateItemTabProp) {
             <div className="flex items-center justify-between">
                 <AdminTitle title="Tạo đơn hàng" />
             </div>
+            <Button id="refresh-item" className="hidden" onClick={() => needRefresh()}>...</Button>
             <ScrollArea className="flex-1 w-full overflow-y-auto p-6 border rounded">
                 <ItemCreateForm zipcodes={zipcodes} ref={componentRef} />
 
