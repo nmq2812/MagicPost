@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useState } from "react";
 import { DataTablePagination } from "./pagination";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -34,6 +34,21 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+
+
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
+import { toast, useToast } from "@/components/ui/use-toast"
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -137,14 +152,222 @@ export function DataTable<TData, TValue>({
     )
 }
 
+const addUserFormSchema = z.object(
+    {
+        "username": z.string(),
+        "password": z.string({
+            required_error: "Mật khẩu không được để trống"
+        }),
+        "fullname": z.string(),
+        "phone": z.string().regex(/^0[0-9]{9}$/, {
+            message: "Số điện thoại không hợp lệ.",
+        }),
+        "role": z.string({
+            required_error: "Vui lòng chức vụ",
+        }),
+        "birth": z.date({
+            required_error: "Vui lòng chọn ngày sinh",
+        }),
+    }
+)
+
+function AddUserForm({ onSubmit }: { onSubmit: (data: z.infer<typeof addUserFormSchema>) => void }) {
+
+    const form = useForm<z.infer<typeof addUserFormSchema>>({
+        resolver: zodResolver(addUserFormSchema),
+        defaultValues: {
+            birth: new Date("2000-01-01T00:00:00.000Z"),
+        }
+    });
+
+    return (
+        <Form {...form} >
+            <form id="user-add" onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Tên người dùng</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mật khẩu</FormLabel>
+                            <FormControl>
+                                <Input {...field} type="password"></Input>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="fullname"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Họ và tên</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Số điện thoại</FormLabel>
+                            <FormControl>
+                                <Input {...field}></Input>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Chức vụ</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Chọn chức vụ" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value="hub_manager">Trưởng điểm tập kết</SelectItem>
+                                    <SelectItem value="office_manager">Trưởng điểm giao dịch</SelectItem>
+                                    <SelectItem value="hub_staff">Nhân viên tập kết</SelectItem>
+                                    <SelectItem value="office_staff">Nhân viên giao dịch</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="birth"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Ngày sinh</FormLabel>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <FormControl>
+                                        <Button
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-full pl-3 text-left font-normal",
+                                                !field.value && "text-muted-foreground"
+                                            )}
+                                        >
+                                            {field.value ? (
+                                                format(field.value, "PPP")
+                                            ) : (
+                                                <span>Chọn ngày</span>
+                                            )}
+                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                    </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) =>
+                                            date > new Date() || date < new Date("1900-01-01")
+                                        }
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </form>
+        </Form>
+    )
+
+
+
+}
+
 
 function AddUserDialog() {
 
-    const [date, setDate] = React.useState<Date>()
+    const [open, setOpen] = useState(false);
+    const { toast } = useToast();
 
+    function getFormattedDate(date: Date) {
+        // Get day, month, and year
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Months are zero-based
+        const year = date.getFullYear();
+
+        // Format the date as "yyyy-mm-dd"
+        const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+
+        return formattedDate;
+    }
+
+    function onSubmit(data: z.infer<typeof addUserFormSchema>) {
+
+        setOpen(false);
+        const payload = {
+            username: data.username,
+            password: data.password,
+            fullname: data.fullname,
+            phone: data.phone,
+            role: data.role,
+            birth: getFormattedDate(data.birth),
+        }
+
+        fetch("http://localhost:8000/api/v1/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(payload)
+        }).then(resp => resp.json())
+            .then(data => {
+
+                console.log(data);
+                document?.getElementById("refresh-staff")?.click();
+                toast({
+                    description: "Tạo tài khoản thành công.",
+                })
+            }).catch(err => {
+                toast({
+                    description: "Tạo tài khoản thất bại.",
+                })
+                console.log(err);
+            })
+
+
+    }
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="default">Cấp tài khoản</Button>
             </DialogTrigger>
@@ -155,79 +378,9 @@ function AddUserDialog() {
                         Cấp tài khoản mới cho trưởng điểm hoặc nhân viên.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username" className="text-right">
-                            Username
-                        </Label>
-                        <Input id="username" value="ppvan" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="fullname" className="text-right">
-                            Họ và tên
-                        </Label>
-                        <Input id="fullname" value="Văn Phú" className="col-span-3" />
-                    </div>
-
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="phone" className="text-right">
-                            Số điện thoại
-                        </Label>
-                        <Input id="phone" placeholder="0987654321" value="" className="col-span-3" />
-                    </div>
-
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="fullname" className="text-right">
-                            Chức vụ
-                        </Label>
-                        <Select>
-                            <SelectTrigger className="col-span-3">
-                                <SelectValue placeholder="Chọn chức vụ" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {/* "admin" | "president" | "hub_manager" | "office_manager" | "hub_staff" | "office_staff"; */}
-                                <SelectGroup>
-                                    <SelectItem value="hub_manager">Trưởng điểm tập kết</SelectItem>
-                                    <SelectItem value="office_manager">Trưởng điểm giao dịch</SelectItem>
-                                    <SelectItem value="hub_staff">Nhân viên tập kết</SelectItem>
-                                    <SelectItem value="office_staff">Nhân viên giao dịch</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="phone" className="text-right">
-                            Ngày sinh
-                        </Label>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "col-span-3 justify-start text-left font-normal",
-                                        !date && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                    mode="single"
-                                    selected={date}
-                                    onSelect={setDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-
-
-                </div>
+                <AddUserForm onSubmit={onSubmit}></AddUserForm>
                 <DialogFooter>
-                    <Button type="submit">Tạo tài khoản</Button>
+                    <Button form="user-add" type="submit">Tạo tài khoản</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

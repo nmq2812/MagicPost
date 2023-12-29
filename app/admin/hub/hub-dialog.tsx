@@ -44,13 +44,43 @@ const createHubFormSchema = z.object({
 
 export function EditHubDialog({ hub }: { hub: Hub }) {
 
+    const [open, setOpen] = useState(false);
+    const { toast } = useToast();
+
     function onSubmit(values: z.infer<typeof createHubFormSchema>) {
-        console.log(values)
+
+        setOpen(false);
+
+        const payload = {
+            name: values.name,
+            phone: values.phone,
+            zipcode: values.zipcode,
+            manager: values.manager,
+            address: `${values.ward}, ${values.district}, ${values.provice}`
+        }
+
+        fetch(`http://localhost:8000/api/v1/hubs/${hub.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(payload),
+        }).then(resp => resp.json())
+            .then(data => {
+                document?.getElementById("refresh-hub")?.click();
+                console.log(document?.getElementById("refresh-hub"));
+                toast({
+                    description: "Điểm tập kết đã cập nhật.",
+                })
+            })
+
+        // console.log(selected)
     }
 
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline" size="icon">
                     <EditIcon size={16} strokeWidth={1} />
@@ -91,7 +121,7 @@ export function DeleteHubDialog({ hub }: { callback: () => void, hub: Hub }) {
             document?.getElementById("refresh-hub")?.click();
             console.log(document?.getElementById("refresh-hub"));
             toast({
-                description: "Your message has been sent.",
+                description: "Điểm tập kết đã xóa.",
             })
         })
     }
@@ -341,8 +371,11 @@ function EditHubForm({ hub, onSubmit }: EditHubFormProp) {
 
 export function AddHubDialog({ callback }: { callback: (row: Hub) => void }) {
 
+
+    const { toast } = useToast();
     const [open, setOpen] = useState(false);
     function onSubmit(values: z.infer<typeof createHubFormSchema>) {
+
 
         setOpen(false);
 
@@ -363,7 +396,11 @@ export function AddHubDialog({ callback }: { callback: (row: Hub) => void }) {
             body: JSON.stringify(payload),
         }).then(resp => resp.json())
             .then(data => {
-                callback(data);
+                document?.getElementById("refresh-hub")?.click();
+                console.log(document?.getElementById("refresh-hub"));
+                toast({
+                    description: "Điểm tập kết được tạo.",
+                })
             })
 
         // console.log(selected)

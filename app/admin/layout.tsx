@@ -7,6 +7,7 @@ import { ClipboardCheck, LogOut, Package, PieChart, Settings, Store, User, Users
 import { SidebarNav } from "@/components/admin-nav"
 import { RedirectType, redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
 
 interface AdminLayoutProps {
     children: React.ReactNode
@@ -66,6 +67,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
     return (
         <div className="flex gap-2 h-screen w-full p-1 rounded-lg">
+            <Toaster></Toaster>
             <aside className="w-1/6 border rounded-lg bg-background shadow">
                 <div className="flex flex-col px-2 py-3 h-full">
                     <div className="p-2 mb-2 bg-card">
@@ -95,6 +97,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <main className="w-5/6 h-full border shadow p-2 rounded-lg">
                 {children}
             </main>
+
         </div >
     )
 }
