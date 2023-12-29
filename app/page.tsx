@@ -1,11 +1,10 @@
-import { Button } from '@/components/ui/button'
-
 import { MainNav } from '@/components/main-nav'
 import { Brand } from '@/components/brand'
 import { Footer } from '@/components/footer'
 import Search from '@/components/search'
 import { Intro } from '@/components/intro'
 import Services from '@/components/services'
+import { useRouter } from 'next/router'
 
 export default function Home() {
     return (
@@ -24,7 +23,6 @@ export default function Home() {
                     <Services />
                     <Search />
                 </div>
-
                 <Footer></Footer>
             </div>
         </>

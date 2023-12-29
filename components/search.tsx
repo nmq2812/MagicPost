@@ -3,6 +3,8 @@ import SearchBar from './ui/search-bar'
 import React, { useState, useEffect } from 'react';
 import SearchResults from './ui/search-results';
 import { Order } from '@/app/admin/components/data/order'
+import { useRouter } from 'next/dist/client/router';
+
 
 const data: Order[] = [
     {
@@ -19,9 +21,11 @@ const data: Order[] = [
             price: 20,
             quantity: 3,
             office1: "Hà Nội",
+            hubs: ["Hà Nội hub", "Đà Nẵng hub"],
             office2: "Dà Nẵng"
             }
         ],
+        status: true,
         total: 85,
     },
     {
@@ -38,9 +42,11 @@ const data: Order[] = [
             price: 30,
             quantity: 1,
             office1: "Cần Thơ",
+            hubs: ["Cần Thơ hub", "Nam Định hub"],
             office2: "Nam Định"
             },
         ],
+        status: true,
         total: 30,
     },
     // Thêm các đơn hàng khác ở đây nếu bạn cần
@@ -48,6 +54,8 @@ const data: Order[] = [
 
 export default function Search() {
     const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+    //const router = useRouter();
+
 
     const handleSearch = (searchTerm: string) => {
         if (searchTerm === '') {
@@ -59,7 +67,7 @@ export default function Search() {
             setFilteredOrders(foundOrders);
         }
     };
-    console.log(filteredOrders)
+
     return (
         
         <div className="h-screen mx-auto grid place-items-center" id="search">

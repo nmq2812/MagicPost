@@ -10,6 +10,8 @@ export type Order = {
   code: string;
   customer: Customer;
   items: OrderItem[];
+  status: boolean;
+  // true: đang giao      false: đã giao
   total: number;
 };
 
@@ -18,5 +20,6 @@ export type OrderItem = {
   price: number;
   quantity: number;
   office1: string;
+  hubs: string[];
   office2: string;
 };

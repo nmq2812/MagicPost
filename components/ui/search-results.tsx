@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { CheckCircle2, CircleDotDashed } from "lucide-react";
+
 
 type SearchResultsProps = {
   results: Order[];
@@ -29,21 +31,24 @@ export default function SearchResults({ results }: SearchResultsProps) {
           </tr>
         </TableCaption>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
+          <TableCell className="">
+            <TableRow className="">
+              <TableCell className=""><CheckCircle2></CheckCircle2> </TableCell>
+              <TableCell className="">Điểm giao dịch: {order.items.map(item => item.office1 )}</TableCell>
+            </TableRow>
+            {order.items.map(item => item.hubs.map(hub => (
+              <TableRow className="">
+                <TableCell className=""><CheckCircle2></CheckCircle2> </TableCell>
+                <TableCell className="">Điểm tập kết: {hub}</TableCell>
+              </TableRow>
+            )) )}
+            <TableRow>
+              <TableCell className=""><CircleDotDashed></CircleDotDashed> </TableCell>
+              <TableCell className="">Điểm giao dịch: {order.items.map(item => item.office2 )} </TableCell>
+            </TableRow>
+            {order.status}
+          </TableCell>
         </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">${order.total.toFixed(2)}</TableCell>
-          </TableRow>
-        </TableBody>
       </Table>
       ))}
     </div>
