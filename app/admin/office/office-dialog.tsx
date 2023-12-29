@@ -67,10 +67,17 @@ function AddOfficeForm({ onSubmit }: AddOfficeFormProp) {
     const [data, setData] = useState<{ label: string, value: string }[]>([])
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/v1/auth/users?role=office_manager")
+        fetch("http://localhost:8000/api/v1/auth/users",
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        )
             .then((res) => res.json())
             .then((data: User[]) => {
                 const managers = data
+                    .filter((user) => user.role == "office_manager")
                     .map((user) => ({ label: user.username, value: user.username }))
 
                 console.log(managers);
@@ -218,10 +225,17 @@ function EditOfficeForm({ office, onSubmit }: EditOfficeFormProp) {
     const [data, setData] = useState<{ label: string, value: string }[]>([])
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/v1/auth/users?role=office_manager")
+        fetch("http://localhost:8000/api/v1/auth/users",
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        )
             .then((res) => res.json())
             .then((data: User[]) => {
                 const managers = data
+                    .filter((user) => user.role == "office_manager")
                     .map((user) => ({ label: user.username, value: user.username }))
 
                 console.log(managers);
