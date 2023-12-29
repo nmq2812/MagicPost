@@ -196,11 +196,9 @@ function InnerAddressInput({ form, field, allowValues, title, onChange }: InnerA
                             !field.value && "text-muted-foreground"
                         )}
                     >
-                        {field.value
-                            ? allowValues.find(
-                                (val) => val.name === field.value
-                            )?.name
-                            : title}
+                        <p>
+                            {field.value ? field.value : title}
+                        </p>
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                 </FormControl>

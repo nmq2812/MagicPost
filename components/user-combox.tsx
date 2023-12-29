@@ -29,11 +29,7 @@ export function UsernameCombox({ form, field, usernames }: UsernameComboxProp) {
                             !field.value && "text-muted-foreground"
                         )}
                     >
-                        {field.value
-                            ? usernames.find(
-                                (username) => username.value === field.value
-                            )?.label
-                            : "Chọn tên người dùng"}
+                        <p>{field.value ? field.value : "Chọn tên người dùng"}</p>
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                 </FormControl>
