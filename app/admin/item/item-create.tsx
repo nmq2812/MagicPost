@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import Image from 'next/image'
 
 
 import { cn } from "@/lib/utils"
@@ -57,6 +58,7 @@ interface ItemCreateFormProp {
     zipcodes: { id: number, name: string, zipcode: string }[]
 }
 
+// eslint-disable-next-line react/display-name
 export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp, ref: React.ForwardedRef<any>) => {
 
     const formSchema = z.object({
@@ -311,7 +313,7 @@ export const ItemCreateForm = React.forwardRef(({ zipcodes }: ItemCreateFormProp
 
                         <div className="flex h-28 items-center">
                             <span className="flex-1"></span>
-                            <img className="w-24 h-24 object-cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Qr-1.svg/220px-Qr-1.svg.png" alt="qr-code" />
+                            <Image className="w-24 h-24 object-cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Qr-1.svg/220px-Qr-1.svg.png" alt="qr-code" />
                         </div>
 
                         <FormField

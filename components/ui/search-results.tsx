@@ -22,7 +22,7 @@ export default function SearchResults({ results }: SearchResultsProps) {
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg mt-4">
       {results.map((order, index) => (
-      <Table>
+      <Table key={index}>
         <TableCaption>
           <tr key={index} className="grid grid-col border-b border-gray-300">
             <td className="text-left p-2">{order.customer.name}</td>
@@ -36,8 +36,8 @@ export default function SearchResults({ results }: SearchResultsProps) {
               <TableCell className=""><CheckCircle2></CheckCircle2> </TableCell>
               <TableCell className="">Điểm giao dịch: {order.items.map(item => item.office1 )}</TableCell>
             </TableRow>
-            {order.items.map(item => item.hubs.map(hub => (
-              <TableRow className="">
+            {order.items.map(item => item.hubs.map((hub, index) => (
+              <TableRow key={index} className="">
                 <TableCell className=""><CheckCircle2></CheckCircle2> </TableCell>
                 <TableCell className="">Điểm tập kết: {hub}</TableCell>
               </TableRow>

@@ -111,7 +111,7 @@ function AddOfficeForm({ onSubmit }: AddOfficeFormProp) {
                                 <Input {...field}></Input>
                             </FormControl>
                             <FormDescription>
-                                Tên điểm giao dịch. Nên bắt đầu bằng "Điểm giao dịch" để dễ xác định
+                                Tên điểm giao dịch. Nên bắt đầu bằng &quot;Điểm giao dịch&quot; để dễ xác định
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -269,7 +269,7 @@ function EditOfficeForm({ office, onSubmit }: EditOfficeFormProp) {
                                 <Input {...field}></Input>
                             </FormControl>
                             <FormDescription>
-                                Tên điểm giao dịch. Nên bắt đầu bằng "Điểm giao dịch" để dễ xác định
+                                Tên điểm giao dịch. Nên bắt đầu bằng &quot;Điểm giao dịch&quot; để dễ xác định
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

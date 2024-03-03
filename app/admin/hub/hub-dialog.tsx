@@ -170,7 +170,7 @@ function CreateHubForm({ onSubmit }: CreateHubFormProp) {
 
 
     useEffect(() => {
-
+        // @ts-ignore
         const user: { username: string, role: string } = localStorage.getItem("userData");
 
         fetch("http://localhost:8000/api/v1/auth/users",
@@ -204,7 +204,7 @@ function CreateHubForm({ onSubmit }: CreateHubFormProp) {
                                 <Input {...field}></Input>
                             </FormControl>
                             <FormDescription>
-                                Tên điểm tập kết. Nên bắt đầu bằng "Điểm tập kết" để dễ xác định
+                                Tên điểm tập kết. Nên bắt đầu bằng &quot;Điểm tập kết&quot; để dễ xác định
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -324,7 +324,7 @@ function EditHubForm({ hub, onSubmit }: EditHubFormProp) {
                                 <Input {...field}></Input>
                             </FormControl>
                             <FormDescription>
-                                Tên điểm tập kết. Nên bắt đầu bằng "Điểm tập kết" để dễ xác định
+                                Tên điểm tập kết. Nên bắt đầu bằng &quotĐiểm tập kết&quot để dễ xác định
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

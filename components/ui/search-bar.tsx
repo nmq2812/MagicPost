@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Order } from '@/app/admin/components/data/order'
-import { usePathname, useSearchParams } from 'next/navigation'
+
 
 
 const SearchBar: React.FC<{ orders: Order[]; onSearch: (searchTerm: string,) => void }> = ({ orders, onSearch }) =>  {
@@ -13,10 +13,6 @@ const SearchBar: React.FC<{ orders: Order[]; onSearch: (searchTerm: string,) => 
         onSearch(searchTerm);
     };
     
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
-    console.log(pathname)
-
     return (
         <div className="flex w-full max-w-sm items-center space-x-2 mt-8">
         <Input

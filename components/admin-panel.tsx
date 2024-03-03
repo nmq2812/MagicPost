@@ -3,6 +3,7 @@
 import { Brand } from "./brand"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import Image from 'next/image'
 
 import { LogOut, PieChart, Settings, Store, Users } from "lucide-react"
 
@@ -17,7 +18,7 @@ export function AdminPanel(): JSX.Element {
                     </div>
 
                     <div>
-                        <img className="object-cover w-24 h-24 mx-auto mb-3 rounded-full" src="https://avatars.githubusercontent.com/ppvan" alt="@ppvan" />
+                        <Image className="object-cover w-24 h-24 mx-auto mb-3 rounded-full" src="https://avatars.githubusercontent.com/ppvan" alt="@ppvan" />
                         <p className="text-center font-large leading-none">Phạm Văn Phúc</p>
                         <p className="text-center text-muted-foreground">Admin</p>
                     </div>

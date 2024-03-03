@@ -3,7 +3,7 @@ import SearchBar from './ui/search-bar'
 import React, { useState, useEffect } from 'react';
 import SearchResults from './ui/search-results';
 import { Order } from '@/app/admin/components/data/order'
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 
 
 const data: Order[] = [
@@ -54,8 +54,6 @@ const data: Order[] = [
 
 export default function Search() {
     const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
-    //const router = useRouter();
-
 
     const handleSearch = (searchTerm: string) => {
         if (searchTerm === '') {

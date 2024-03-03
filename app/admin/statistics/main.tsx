@@ -254,12 +254,12 @@ export function StatisticsTab() {
                         <SelectItem value="all">Tất cả</SelectItem>
                         <SelectGroup>
                             <SelectLabel>Các điểm tập kết</SelectLabel>
-                            {hubList.map((office) => <SelectItem value={office}>{office}</SelectItem>)}
+                            {hubList.map((office, index) => <SelectItem key={index} value={office}>{office}</SelectItem>)}
                         </SelectGroup>
 
                         <SelectGroup>
                             <SelectLabel>Các điểm giao dịch</SelectLabel>
-                            {officeList.map((office) => <SelectItem value={office}>{office}</SelectItem>)}
+                            {officeList.map((office, index) => <SelectItem key={index} value={office}>{office}</SelectItem>)}
                         </SelectGroup>
                     </SelectContent>
                 </Select>
