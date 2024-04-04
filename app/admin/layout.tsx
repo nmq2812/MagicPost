@@ -64,7 +64,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
     useEffect(() => {
         const temp = localStorage.getItem("userData");
-        if (!temp) redirect("/login")
+        if (!temp) redirect("/login");
         const userData = JSON.parse(temp);
         const allowLinks = navigationLinks.filter((link) => link.allow.includes(userData.role));
 

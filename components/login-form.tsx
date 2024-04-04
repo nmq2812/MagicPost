@@ -27,8 +27,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
-            password: "",
+            username: "kkknnn",
+            password: "kkknnn",
         },
     })
 
@@ -42,6 +42,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 password: values.password,
             }),
         })
+        console.log(resp)
 
         if (!resp.ok) {
             return
